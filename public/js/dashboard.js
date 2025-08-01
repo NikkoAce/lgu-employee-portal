@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // URLs of your deployed applications
     const IT_HELPDESK_URL = 'https://lgu-ithelpdesk.netlify.app/app.html';
-    const BUILDING_PERMIT_URL = 'https://lgu-building-permit.netlify.app/dashboard.html'; 
+    const BUILDING_PERMIT_URL = 'https://lgu-engr-permit.netlify.app/dashboard.html'; 
+
+    
 
     // --- 1. Check for Authentication ---
     const token = localStorage.getItem('portalAuthToken');
@@ -41,7 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (itHelpdeskLink) {
         itHelpdeskLink.href = `${IT_HELPDESK_URL}?token=${token}`;
     }
-   if (buildingPermitLink) { 
+    
+    if (buildingPermitLink) { 
     buildingPermitLink.href = `${BUILDING_PERMIT_URL}?token=${token}`;
 }
 
