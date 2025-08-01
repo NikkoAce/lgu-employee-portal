@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const employmentTypeSelect = document.getElementById('login-employmentType');
 
     // The URL of your deployed IT Helpdesk backend API
-    const API_BASE_URL = 'https://lgu-helpdesk-api.onrender.com';
+    const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
 
     // Function to update Employee ID input attributes based on employment type
     const updateEmployeeIdInput = (type) => {
