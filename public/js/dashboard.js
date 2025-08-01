@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const buildingPermitLink = document.getElementById('building-permit-link');
 
     // URLs of your deployed applications
-    const IT_HELPDESK_URL = 'https://lgu-ithelpdesk-copy.netlify.app/app.html';
+    const IT_HELPDESK_URL = 'https://lgu-ithelpdesk.netlify.app/app.html';
     // const BUILDING_PERMIT_URL = 'https://your-permit-app.netlify.app'; // Add this when ready
 
     // --- 1. Check for Authentication ---
