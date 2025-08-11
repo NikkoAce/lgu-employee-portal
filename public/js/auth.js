@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('register-form');
     
     // The URL of your deployed IT Helpdesk backend API
-    const API_BASE_URL = 'https://lgu-helpdesk-api.onrender.com';
+    const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
 
     // --- LOGIN FORM LOGIC ---
     if (loginForm) {
