@@ -1,73 +1,111 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- ELEMENT REFERENCES ---
     const loginForm = document.getElementById('login-form');
-    const loginMessage = document.getElementById('login-message');
-    const employeeIdInput = document.getElementById('login-employeeId');
-    const employmentTypeSelect = document.getElementById('login-employmentType');
-
-    // The URL of your deployed IT Helpdesk backend API
-    const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
-
-    // Function to update Employee ID input attributes based on employment type
-    const updateEmployeeIdInput = (type) => {
-        if (type === 'Permanent') {
-            employeeIdInput.placeholder = '0-00-000-000';
-            employeeIdInput.pattern = '\\d{1}-\\d{2}-\\d{3}-\\d{3}';
-            employeeIdInput.maxLength = 12;
-            employeeIdInput.title = 'Format: 0-00-000-000';
-        } else { // Job Order
-            employeeIdInput.placeholder = 'JO-00-000-00000';
-            employeeIdInput.pattern = 'JO-\\d{2}-\\d{3}-\\d{5}';
-            employeeIdInput.maxLength = 15;
-            employeeIdInput.title = 'Format: JO-00-000-00000';
-        }
-        employeeIdInput.value = ''; // Clear input on change
-    };
+    const registerForm = document.getElementById('register-form');
     
-    // Initialize on page load
-    updateEmployeeIdInput(employmentTypeSelect.value);
+    // The URL of your deployed IT Helpdesk backend API
+    const API_BASE_URL = 'https://lgu-helpdesk-api.onrender.com';
 
-    // Add event listener for changes
-    employmentTypeSelect.addEventListener('change', () => updateEmployeeIdInput(employmentTypeSelect.value));
+    // --- LOGIN FORM LOGIC ---
+    if (loginForm) {
+        const loginMessage = document.getElementById('login-message');
+        const employeeIdInput = document.getElementById('login-employeeId');
+        const employmentTypeSelect = document.getElementById('login-employmentType');
 
-    // Handle form submission
-    loginForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const submitButton = loginForm.querySelector('button[type="submit"]');
-        const originalButtonText = submitButton.innerHTML;
+        const updateLoginInput = (type) => {
+            if (type === 'Permanent') {
+                employeeIdInput.placeholder = '0-00-000-000';
+            } else { // Job Order
+                employeeIdInput.placeholder = 'JO-00-000-00000';
+            }
+            employeeIdInput.value = '';
+        };
+        
+        updateLoginInput(employmentTypeSelect.value);
+        employmentTypeSelect.addEventListener('change', () => updateLoginInput(employmentTypeSelect.value));
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const submitButton = loginForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
 
         // Set loading state
         submitButton.disabled = true;
         submitButton.innerHTML = 'Signing In...';
         loginMessage.textContent = '';
+            const formData = new FormData(loginForm);
+            const loginData = Object.fromEntries(formData.entries());
 
-        const formData = new FormData(loginForm);
-        const loginData = Object.fromEntries(formData.entries());
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(loginData)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Login failed.');
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(loginData)
+                });
+                if (!response.ok) throw new Error((await response.json()).message);
+                const { token } = await response.json();
+                localStorage.setItem('portalAuthToken', token);
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                loginMessage.textContent = `Error: ${error.message}`;
             }
+        });
+    }
 
-            const { token } = await response.json();
-            // Store the token to be used by the dashboard
-            localStorage.setItem('portalAuthToken', token);
-            
-            // Redirect to the dashboard on successful login
-            window.location.href = 'dashboard.html';
+    // --- REGISTRATION FORM LOGIC ---
+    if (registerForm) {
+        const registerMessage = document.getElementById('register-message');
+        const employeeIdInput = document.getElementById('register-employeeId');
+        const employmentTypeSelect = document.getElementById('register-employmentType');
 
-        } catch (error) {
-            loginMessage.textContent = `Error: ${error.message}`;
-        } finally {
-            // Restore button state
-            submitButton.disabled = false;
-            submitButton.innerHTML = originalButtonText;
-        }
-    });
+        const updateRegisterInput = (type) => {
+             if (type === 'Permanent') {
+                employeeIdInput.placeholder = '0-00-000-000';
+            } else { // Job Order
+                employeeIdInput.placeholder = 'JO-00-000-00000';
+            }
+            employeeIdInput.value = '';
+        };
+
+        updateRegisterInput(employmentTypeSelect.value);
+        employmentTypeSelect.addEventListener('change', () => updateRegisterInput(employmentTypeSelect.value));
+
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const submitButton = registerForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'Registering...';
+            registerMessage.textContent = '';
+
+            const formData = new FormData(registerForm);
+            const registerData = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(registerData)
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.message || 'Registration failed.');
+                }
+                
+                registerMessage.textContent = 'Registration successful! Please sign in.';
+                registerMessage.className = 'text-sm text-green-600';
+                registerForm.reset();
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+
+            } catch (error) {
+                registerMessage.textContent = `Error: ${error.message}`;
+                registerMessage.className = 'text-sm text-red-600';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Register Account';
+            }
+        });
+    }
 });
