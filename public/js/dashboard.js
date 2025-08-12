@@ -1,15 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const userInfo = document.getElementById('user-info');
     const signOutButton = document.getElementById('signout-button');
-    const itHelpdeskLink = document.getElementById('it-helpdesk-link');
-    const buildingPermitLink = document.getElementById('building-permit-link');
-    const informalSettlerLink = document.getElementById('informal-settler-link');
+    const userMenuButton = document.getElementById('user-menu-button');
+    const userMenu = document.getElementById('user-menu');
 
     // URLs of your deployed applications
     const IT_HELPDESK_URL = 'https://lgu-ithelpdesk.netlify.app/app.html';
     const BUILDING_PERMIT_URL = 'https://lgu-engr-permit.netlify.app/dashboard.html'; 
     const INFORMAL_SETTLER_URL = 'https://lgu-urban-poor.netlify.app/dashboard.html'; // Example URL
-    
 
     // --- 1. Check for Authentication ---
     const token = localStorage.getItem('portalAuthToken');
@@ -40,20 +38,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 3. Set Up Application Links (Single Sign-On) ---
-    // We pass the token as a URL parameter to the other applications
-    if (itHelpdeskLink) {
-        itHelpdeskLink.href = `${IT_HELPDESK_URL}?token=${token}`;
-    }
-    
-    if (buildingPermitLink) { 
-    buildingPermitLink.href = `${BUILDING_PERMIT_URL}?token=${token}`;
-}
+    const apps = [
+        { id: 'it-helpdesk-link', url: IT_HELPDESK_URL },
+        { id: 'building-permit-link', url: BUILDING_PERMIT_URL },
+        { id: 'informal-settler-link', url: INFORMAL_SETTLER_URL }
+    ];
+ 
+    apps.forEach(app => {
+        const linkElement = document.getElementById(app.id);
+        if (linkElement && app.url) {
+            linkElement.href = `${app.url}?token=${token}`;
+        }
+    });
 
-    if (informalSettlerLink) {
-        informalSettlerLink.href = `${INFORMAL_SETTLER_URL}?token=${token}`;
+    // --- 4. Set Up User Menu and Sign Out ---
+    if (userMenuButton && userMenu) {
+        userMenuButton.addEventListener('click', (event) => {
+            // Prevent this click from immediately closing the menu via the window listener
+            event.stopPropagation(); 
+            userMenu.classList.toggle('hidden');
+        });
     }
 
-    // --- 4. Set Up Sign Out Button ---
+    // Close dropdown if clicking anywhere else on the page
+    window.addEventListener('click', () => {
+        if (userMenu && !userMenu.classList.contains('hidden')) {
+            userMenu.classList.add('hidden');
+        }
+    });
+
     if (signOutButton) {
         signOutButton.addEventListener('click', () => {
             localStorage.removeItem('portalAuthToken');
