@@ -3,11 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const signOutButton = document.getElementById('signout-button');
     const itHelpdeskLink = document.getElementById('it-helpdesk-link');
     const buildingPermitLink = document.getElementById('building-permit-link');
+    const informalSettlerLink = document.getElementById('informal-settler-link');
 
     // URLs of your deployed applications
     const IT_HELPDESK_URL = 'https://lgu-ithelpdesk.netlify.app/app.html';
     const BUILDING_PERMIT_URL = 'https://lgu-engr-permit.netlify.app/dashboard.html'; 
-
+    const INFORMAL_SETTLER_URL = 'https://lgu-urban-poor.netlify.app/dashboard.html'; // Example URL
     
 
     // --- 1. Check for Authentication ---
@@ -47,6 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (buildingPermitLink) { 
     buildingPermitLink.href = `${BUILDING_PERMIT_URL}?token=${token}`;
 }
+
+    if (informalSettlerLink) {
+        informalSettlerLink.href = `${INFORMAL_SETTLER_URL}?token=${token}`;
+    }
 
     // --- 4. Set Up Sign Out Button ---
     if (signOutButton) {
