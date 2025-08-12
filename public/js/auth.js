@@ -6,23 +6,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // The URL of your deployed IT Helpdesk backend API
     const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
 
+    // --- HELPER: PASSWORD TOGGLE VISIBILITY ---
+    const setupPasswordToggle = (toggleBtnId, passwordInputId, eyeIconId, eyeSlashIconId) => {
+        const toggleButton = document.getElementById(toggleBtnId);
+        const passwordInput = document.getElementById(passwordInputId);
+        const eyeIcon = document.getElementById(eyeIconId);
+        const eyeSlashIcon = document.getElementById(eyeSlashIconId);
+
+        if (toggleButton && passwordInput && eyeIcon && eyeSlashIcon) {
+            toggleButton.addEventListener('click', () => {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeIcon.classList.add('hidden');
+                    eyeSlashIcon.classList.remove('hidden');
+                } else {
+                    passwordInput.type = 'password';
+                    eyeIcon.classList.remove('hidden');
+                    eyeSlashIcon.classList.add('hidden');
+                }
+            });
+        }
+    };
+
     // --- LOGIN FORM LOGIC ---
     if (loginForm) {
         const loginMessage = document.getElementById('login-message');
-        const employeeIdInput = document.getElementById('login-employeeId');
-        const employmentTypeSelect = document.getElementById('login-employmentType');
-
-        const updateLoginInput = (type) => {
-            if (type === 'Permanent') {
-                employeeIdInput.placeholder = '0-00-000-000';
-            } else { // Job Order
-                employeeIdInput.placeholder = 'JO-00-000-00000';
-            }
-            employeeIdInput.value = '';
-        };
-        
-        updateLoginInput(employmentTypeSelect.value);
-        employmentTypeSelect.addEventListener('change', () => updateLoginInput(employmentTypeSelect.value));
 
         loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -58,46 +66,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- REGISTRATION FORM LOGIC ---
     if (registerForm) {
         const registerMessage = document.getElementById('register-message');
-        const employeeIdInput = document.getElementById('register-employeeId');
-        const employmentTypeSelect = document.getElementById('register-employmentType');
-
-        const updateRegisterInput = (type) => {
-             if (type === 'Permanent') {
-                employeeIdInput.placeholder = '0-00-000-000';
-            } else { // Job Order
-                employeeIdInput.placeholder = 'JO-00-000-00000';
-            }
-            employeeIdInput.value = '';
-        };
-
-        // NEW: Function to auto-format the ID as the user types
-        const formatEmployeeId = (type, inputElement) => {
-            let value = inputElement.value.replace(/\D/g, ''); // Remove all non-digits
-            let formatted = '';
-
-            if (type === 'Permanent') {
-                if (value.length > 0) formatted += value.substring(0, 1);
-                if (value.length > 1) formatted += '-' + value.substring(1, 3);
-                if (value.length > 3) formatted += '-' + value.substring(3, 6);
-                if (value.length > 6) formatted += '-' + value.substring(6, 9);
-            } else { // Job Order
-                formatted = 'JO-';
-                if (value.length > 0) formatted += value.substring(0, 2);
-                if (value.length > 2) formatted += '-' + value.substring(2, 5);
-                if (value.length > 5) formatted += '-' + value.substring(5, 10);
-            }
-            inputElement.value = formatted;
-        };
-
-        updateRegisterInput(employmentTypeSelect.value);
-        employmentTypeSelect.addEventListener('change', () => updateRegisterInput(employmentTypeSelect.value));
-        
-        // Add the input event listener for live formatting
-        employeeIdInput.addEventListener('input', () => formatEmployeeId(employmentTypeSelect.value, employeeIdInput));
-
+        const passwordInput = document.getElementById('register-password');
+        const confirmPasswordInput = document.getElementById('register-confirm-password');
 
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
+
+            // --- Password Match Validation ---
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                registerMessage.textContent = 'Error: Passwords do not match.';
+                registerMessage.className = 'text-sm text-red-600';
+                return; // Stop the submission
+            }
+
             const submitButton = registerForm.querySelector('button[type="submit"]');
             submitButton.disabled = true;
             submitButton.innerHTML = 'Registering...';
@@ -105,6 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const formData = new FormData(registerForm);
             const registerData = Object.fromEntries(formData.entries());
+            // We don't need to send the confirmation password to the backend
+            delete registerData.confirmPassword;
 
             try {
                 const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
@@ -134,4 +117,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- INITIALIZE PASSWORD TOGGLES ---
+    // For Login Form
+    setupPasswordToggle(
+        'login-toggle-password', 
+        'login-password', 
+        'login-eye-icon', 
+        'login-eye-slash-icon'
+    );
+    // For Register Form
+    setupPasswordToggle(
+        'register-toggle-password', 
+        'register-password', 
+        'register-eye-icon', 
+        'register-eye-slash-icon'
+    );
+    // For Register Form's Confirm Password
+    setupPasswordToggle(
+        'register-toggle-confirm-password',
+        'register-confirm-password',
+        'register-confirm-eye-icon',
+        'register-confirm-eye-slash-icon'
+    );
 });
