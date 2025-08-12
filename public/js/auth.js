@@ -20,6 +20,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             employeeIdInput.value = '';
         };
+
+
+         // NEW: Function to auto-format the ID as the user types
+        const formatEmployeeId = (type, inputElement) => {
+            let value = inputElement.value.replace(/\D/g, ''); // Remove all non-digits
+            let formatted = '';
+
+            if (type === 'Permanent') {
+                if (value.length > 0) formatted += value.substring(0, 1);
+                if (value.length > 1) formatted += '-' + value.substring(1, 3);
+                if (value.length > 3) formatted += '-' + value.substring(3, 6);
+                if (value.length > 6) formatted += '-' + value.substring(6, 9);
+            } else { // Job Order
+                formatted = 'JO-';
+                if (value.length > 0) formatted += value.substring(0, 2);
+                if (value.length > 2) formatted += '-' + value.substring(2, 5);
+                if (value.length > 5) formatted += '-' + value.substring(5, 10);
+            }
+            inputElement.value = formatted;
+        };
         
         updateLoginInput(employmentTypeSelect.value);
         employmentTypeSelect.addEventListener('change', () => updateLoginInput(employmentTypeSelect.value));
