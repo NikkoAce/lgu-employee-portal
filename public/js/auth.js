@@ -20,26 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             employeeIdInput.value = '';
         };
-
-
-         // NEW: Function to auto-format the ID as the user types
-        const formatEmployeeId = (type, inputElement) => {
-            let value = inputElement.value.replace(/\D/g, ''); // Remove all non-digits
-            let formatted = '';
-
-            if (type === 'Permanent') {
-                if (value.length > 0) formatted += value.substring(0, 1);
-                if (value.length > 1) formatted += '-' + value.substring(1, 3);
-                if (value.length > 3) formatted += '-' + value.substring(3, 6);
-                if (value.length > 6) formatted += '-' + value.substring(6, 9);
-            } else { // Job Order
-                formatted = 'JO-';
-                if (value.length > 0) formatted += value.substring(0, 2);
-                if (value.length > 2) formatted += '-' + value.substring(2, 5);
-                if (value.length > 5) formatted += '-' + value.substring(5, 10);
-            }
-            inputElement.value = formatted;
-        };
         
         updateLoginInput(employmentTypeSelect.value);
         employmentTypeSelect.addEventListener('change', () => updateLoginInput(employmentTypeSelect.value));
@@ -49,10 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitButton = loginForm.querySelector('button[type="submit"]');
             const originalButtonText = submitButton.innerHTML;
 
-        // Set loading state
-        submitButton.disabled = true;
-        submitButton.innerHTML = 'Signing In...';
-        loginMessage.textContent = '';
+            // Set loading state
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'Signing In...';
+            loginMessage.textContent = '';
             const formData = new FormData(loginForm);
             const loginData = Object.fromEntries(formData.entries());
 
@@ -68,6 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'dashboard.html';
             } catch (error) {
                 loginMessage.textContent = `Error: ${error.message}`;
+            } finally {
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
             }
         });
     }
@@ -87,8 +70,31 @@ document.addEventListener('DOMContentLoaded', () => {
             employeeIdInput.value = '';
         };
 
+        // NEW: Function to auto-format the ID as the user types
+        const formatEmployeeId = (type, inputElement) => {
+            let value = inputElement.value.replace(/\D/g, ''); // Remove all non-digits
+            let formatted = '';
+
+            if (type === 'Permanent') {
+                if (value.length > 0) formatted += value.substring(0, 1);
+                if (value.length > 1) formatted += '-' + value.substring(1, 3);
+                if (value.length > 3) formatted += '-' + value.substring(3, 6);
+                if (value.length > 6) formatted += '-' + value.substring(6, 9);
+            } else { // Job Order
+                formatted = 'JO-';
+                if (value.length > 0) formatted += value.substring(0, 2);
+                if (value.length > 2) formatted += '-' + value.substring(2, 5);
+                if (value.length > 5) formatted += '-' + value.substring(5, 10);
+            }
+            inputElement.value = formatted;
+        };
+
         updateRegisterInput(employmentTypeSelect.value);
         employmentTypeSelect.addEventListener('change', () => updateRegisterInput(employmentTypeSelect.value));
+        
+        // Add the input event listener for live formatting
+        employeeIdInput.addEventListener('input', () => formatEmployeeId(employmentTypeSelect.value, employeeIdInput));
+
 
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
