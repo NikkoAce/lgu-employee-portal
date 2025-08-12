@@ -34,12 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const submitButton = loginForm.querySelector('button[type="submit"]');
-            const originalButtonText = submitButton.innerHTML;
+            const submitButton = document.querySelector('#login-form button[type="submit"]');
+            const buttonText = document.getElementById('login-button-text');
+            const spinner = document.getElementById('login-spinner');
 
             // Set loading state
             submitButton.disabled = true;
-            submitButton.innerHTML = 'Signing In...';
+            buttonText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+
             loginMessage.textContent = '';
             const formData = new FormData(loginForm);
             const loginData = Object.fromEntries(formData.entries());
@@ -57,8 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 loginMessage.textContent = `Error: ${error.message}`;
             } finally {
+                spinner.classList.add('hidden');
+                buttonText.classList.remove('hidden');
                 submitButton.disabled = false;
-                submitButton.innerHTML = originalButtonText;
             }
         });
     }
@@ -69,20 +73,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const passwordInput = document.getElementById('register-password');
         const confirmPasswordInput = document.getElementById('register-confirm-password');
 
+        const clearPasswordError = () => {
+            if (passwordInput.classList.contains('border-red-500')) {
+                passwordInput.classList.remove('border-red-500');
+                confirmPasswordInput.classList.remove('border-red-500');
+                registerMessage.textContent = '';
+            }
+        };
+
+        passwordInput.addEventListener('input', clearPasswordError);
+        confirmPasswordInput.addEventListener('input', clearPasswordError);
+
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
+            const submitButton = registerForm.querySelector('button[type="submit"]');
+            const buttonText = document.getElementById('register-button-text');
+            const spinner = document.getElementById('register-spinner');
 
             // --- Password Match Validation ---
+            clearPasswordError();
             if (passwordInput.value !== confirmPasswordInput.value) {
                 registerMessage.textContent = 'Error: Passwords do not match.';
                 registerMessage.className = 'text-sm text-red-600';
+                passwordInput.classList.add('border-red-500');
+                confirmPasswordInput.classList.add('border-red-500');
                 return; // Stop the submission
             }
 
-            const submitButton = registerForm.querySelector('button[type="submit"]');
+            // Set loading state
             submitButton.disabled = true;
-            submitButton.innerHTML = 'Registering...';
-            registerMessage.textContent = '';
+            buttonText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+            
 
             const formData = new FormData(registerForm);
             const registerData = Object.fromEntries(formData.entries());
@@ -112,8 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 registerMessage.textContent = `Error: ${error.message}`;
                 registerMessage.className = 'text-sm text-red-600';
             } finally {
+                spinner.classList.add('hidden');
+                buttonText.classList.remove('hidden');
                 submitButton.disabled = false;
-                submitButton.innerHTML = 'Register Account';
             }
         });
     }
