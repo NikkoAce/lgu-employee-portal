@@ -53,8 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(loginData)
                 });
-                if (!response.ok) throw new Error((await response.json()).message);
-                const { token } = await response.json();
+                const result = await response.json(); // Read the body ONCE
+                if (!response.ok) {
+                    throw new Error(result.message || 'Login failed.'); // Use the parsed result for the error
+                }
+                const { token } = result; // Destructure from the result on success
                 localStorage.setItem('portalAuthToken', token);
                 window.location.href = 'dashboard.html';
             } catch (error) {
