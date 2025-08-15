@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // The URL of your deployed IT Helpdesk backend API
     const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
+    
 
     // --- HELPER: PASSWORD TOGGLE VISIBILITY ---
     const setupPasswordToggle = (toggleBtnId, passwordInputId, eyeIconId, eyeSlashIconId) => {
