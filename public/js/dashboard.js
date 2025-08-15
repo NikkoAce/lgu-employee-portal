@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const IT_HELPDESK_URL = 'https://lgu-ithelpdesk.netlify.app/app.html';
     const BUILDING_PERMIT_URL = 'https://lgu-engr-permit.netlify.app/dashboard.html'; 
     const INFORMAL_SETTLER_URL = 'https://lgu-urban-poor.netlify.app/dashboard.html';
-    const GSO_SYSTEM_URL = 'https://lgudaet-gso-system.netlify.app/dashboard.html'; // IMPORTANT: Replace with your GSO system's URL
+    const GSO_SYSTEM_URL = 'https://lgudaet-gso-system.netlify.app/dashboard.html'; 
 
     // --- 1. Check for Authentication ---
     const token = localStorage.getItem('portalAuthToken');
