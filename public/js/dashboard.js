@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const BUILDING_PERMIT_URL = 'https://lgu-engr-permit.netlify.app/dashboard.html'; 
     const INFORMAL_SETTLER_URL = 'https://lgu-urban-poor.netlify.app/dashboard.html';
     // IMPORTANT: Replace with your GSO system's live URL
-    const GSO_SYSTEM_URL = 'https://lgudaet-gso-system.netlify.app/dashboard.html'; 
+    const GSO_DASHBOARD_URL = 'https://lgudaet-gso-system.netlify.app/dashboard.html'; 
+    const GSO_VIEW_ASSETS_URL = 'https://lgudaet-gso-system.netlify.app/view-assets.html'; 
 
     // --- 1. Check for Authentication ---
     const token = localStorage.getItem('portalAuthToken');
@@ -40,11 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 3. Set Up Application Links (Single Sign-On) ---
     const appsContainer = document.getElementById('apps-container');
     if (appsContainer) {
+        // Add other app links
+        // ...
+        
+        // LOGIC: Check the user's office to determine which GSO link to show
         let gsoLinkHTML = '';
-        // LOGIC: Check the user's office to determine which link to show
         if (currentUser.office === 'GSO') {
             gsoLinkHTML = `
-                <a href="${GSO_SYSTEM_URL}?token=${token}" class="flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg">
+                <a href="${GSO_DASHBOARD_URL}?token=${token}" class="flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg">
                     <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg bg-purple-100 text-purple-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" />
@@ -57,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </a>`;
         } else {
              gsoLinkHTML = `
-                <a href="${GSO_SYSTEM_URL}?token=${token}" class="flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg">
+                <a href="${GSO_VIEW_ASSETS_URL}?token=${token}" class="flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg">
                      <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg bg-gray-100 text-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" />
@@ -77,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 4. Set Up User Menu and Sign Out ---
     if (userMenuButton && userMenu) {
         userMenuButton.addEventListener('click', (event) => {
-            event.stopPropagation(); x
+            event.stopPropagation(); 
             userMenu.classList.toggle('hidden');
         });
     }
