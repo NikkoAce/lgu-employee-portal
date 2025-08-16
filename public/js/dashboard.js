@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userMenu = document.getElementById('user-menu');
 
     // URLs of your deployed applications
-    const IT_HELPDESK_URL = 'https://lgu-ithelpdesk.netlify.app/index.html';
+    const IT_HELPDESK_URL = 'https://lgu-ithelpdesk.netlify.app/app.html';
     const BUILDING_PERMIT_URL = 'https://lgu-engr-permit.netlify.app/index.html'; 
     const INFORMAL_SETTLER_URL = 'https://lgu-urban-poor.netlify.app/dashboard.html';
     // IMPORTANT: Replace with your GSO system's live URL
