@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // IMPORTANT: Replace with your GSO system's live URL
     const GSO_DASHBOARD_URL = 'https://lgudaet-gso-system.netlify.app/dashboard.html'; 
     const GSO_VIEW_ASSETS_URL = 'https://lgudaet-gso-system.netlify.app//view-assets.html'; 
-    const GSO_DEV_DASHBOARD_URL = 'https://dev-gso-system.netlify.app/dashboard.html';
+    const GSO_DEV_DASHBOARD_URL = 'https://dev-gso-system.netlify.app/assets/dashboard.html';
  
     // --- 1. Check for Authentication ---
-    const token = localStorage.getItem('portalAuthToken');
+    const token = localStorage.getItem('portalAuthToken');  
     if (!token) {
         window.location.href = 'index.html';
         return;
