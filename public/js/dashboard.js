@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const INFORMAL_SETTLER_URL = 'https://lgu-urban-poor.netlify.app/dashboard.html';
     // IMPORTANT: Replace with your GSO system's live URL
     const GSO_DASHBOARD_URL = 'https://lgudaet-gso-system.netlify.app/dashboard.html'; 
-    const GSO_VIEW_ASSETS_URL = 'https://lgudaet-gso-system.netlify.app/view-assets.html'; 
+    const GSO_VIEW_ASSETS_URL = 'https://lgudaet-gso-system.netlify.app/assets/view-assets.html'; 
     const GSO_DEV_DASHBOARD_URL = 'https://dev-gso-system.netlify.app/dashboard.html';
  
     // --- 1. Check for Authentication ---
