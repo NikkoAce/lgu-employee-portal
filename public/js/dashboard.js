@@ -9,10 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const IT_HELPDESK_URL = 'https://lgu-ithelpdesk.netlify.app/app.html';
     const BUILDING_PERMIT_URL = 'https://lgu-engr-permit.netlify.app/index.html'; 
     const INFORMAL_SETTLER_URL = 'https://lgu-urban-poor.netlify.app/dashboard.html';
-    // --- GSO System URLs ---
-    const GSO_ADMIN_URL = 'https://lgudaet-gso-system.netlify.app/dashboard/dashboard.html'; 
-    const GSO_EMPLOYEE_URL = 'https://lgudaet-gso-system.netlify.app/portal/view-assets.html'; 
-    const GSO_DEV_URL = 'https://dev-gso-system.netlify.app/dashboard/dashboard.html'; // Your development link
+    // --- GSO System Root URLs ---
+    const GSO_PROD_URL = 'https://lgudaet-gso-system.netlify.app/';
+    const GSO_DEV_URL = 'https://dev-gso-system.netlify.app/'; // Your development link
 
     // --- 1. Check for Authentication ---
     const token = localStorage.getItem('portalAuthToken');  
@@ -55,44 +54,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        // --- GSO System Link Logic ---
-        // This logic now mirrors the backend's definition of an admin.
-        const adminOffices = ['GSO', 'General Service Office', 'IT'];
-        const adminRoles = ['IT'];
-        const isGsoAdmin = adminOffices.includes(currentUser.office) || adminRoles.includes(currentUser.role);
-
-        const gsoConfig = isGsoAdmin
-            ? {
-                url: GSO_ADMIN_URL,
-                title: "GSO Asset Management",
-                description: "Full access to manage property, generate slips, and conduct physical counts.",
-                iconBg: "bg-purple-100 text-purple-600",
-                iconPath: "M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"
-            }
-            : {
-                url: GSO_EMPLOYEE_URL,
-                title: "View My Office's Assets",
-                description: "View accountable property assigned to your office and request supplies.",
-                iconBg: "bg-gray-100 text-gray-600",
-                iconPath: "M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5"
-            };
-
+        // --- GSO System Link (Production) ---
         const gsoLinkHTML = `
-            <a href="${gsoConfig.url}?token=${token}" class="flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
-                <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg ${gsoConfig.iconBg}">
+            <a href="${GSO_PROD_URL}?token=${token}" class="flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+                <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg bg-purple-100 text-purple-600">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="${gsoConfig.iconPath}" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-lg sm:text-xl font-semibold text-gray-800">${gsoConfig.title}</h3>
-                    <p class="mt-1 text-sm sm:text-base text-gray-600">${gsoConfig.description}</p>
+                    <h3 class="text-lg sm:text-xl font-semibold text-gray-800">GSO Asset & Supply System</h3>
+                    <p class="mt-1 text-sm sm:text-base text-gray-600">Manage property, view assets, and request supplies.</p>
                 </div>
             </a>`;
         
         appsContainer.insertAdjacentHTML('beforeend', gsoLinkHTML);
 
-        // --- Add the GSO Dev System link (for development purposes) ---
+        // --- GSO System Link (Development) ---
         const gsoDevLinkHTML = `
             <a href="${GSO_DEV_URL}?token=${token}" class="flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
                 <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg bg-red-100 text-red-600">
