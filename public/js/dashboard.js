@@ -1,19 +1,17 @@
 // FILE: /_LGU EMPLOYEE PORTAL/public/js/dashboard.js (UPDATED)
-document.addEventListener('DOMContentLoaded', () => {
-    const userInfo = document.getElementById('user-info');
-    const signOutButton = document.getElementById('signout-button');
-    const userMenuButton = document.getElementById('user-menu-button');
-    const userMenu = document.getElementById('user-menu');
 
-    // URLs of your deployed applications
+/**
+ * This function is responsible for updating the dashboard's UI with the
+ * current user's information and setting up the correct SSO links.
+ * It can be called multiple times without adding duplicate event listeners.
+ */
+function updateDashboardUI() {
     const IT_HELPDESK_URL = 'https://lgu-ithelpdesk.netlify.app/app.html';
     const BUILDING_PERMIT_URL = 'https://lgu-engr-permit.netlify.app/index.html'; 
     const INFORMAL_SETTLER_URL = 'https://lgu-urban-poor.netlify.app/dashboard.html';
-    // --- GSO System Root URLs ---
     const GSO_PROD_URL = 'https://lgudaet-gso-system.netlify.app/';
     const GSO_DEV_URL = 'https://dev-gso-system.netlify.app/'; // Your development link
 
-    // --- 1. Check for Authentication ---
     const token = localStorage.getItem('portalAuthToken');  
     if (!token) {
         window.location.href = 'index.html';
@@ -21,10 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 2. Decode Token and Display User Info ---
-    let currentUser;
+    const userInfo = document.getElementById('user-info');
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        currentUser = payload.user;
+        const currentUser = payload.user;
         if (userInfo && currentUser) {
             userInfo.innerHTML = `
                 <p class="text-sm font-semibold text-gray-800">${currentUser.name}</p>
@@ -40,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 3. Set Up Application Links (Single Sign-On) ---
     const appsContainer = document.getElementById('apps-container');
+    
     if (appsContainer) {
         // --- Link existing applications ---
         const existingApps = [
@@ -54,9 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
+        // Clear any dynamically added links before re-adding them to prevent duplicates on bfcache restore.
+        const dynamicLinks = appsContainer.querySelectorAll('.dynamic-link');
+        dynamicLinks.forEach(link => link.remove());
+
         // --- GSO System Link (Production) ---
         const gsoLinkHTML = `
-            <a href="${GSO_PROD_URL}?token=${token}" class="flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+            <a href="${GSO_PROD_URL}?token=${token}" class="dynamic-link flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
                 <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg bg-purple-100 text-purple-600">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
@@ -72,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- GSO System Link (Development) ---
         const gsoDevLinkHTML = `
-            <a href="${GSO_DEV_URL}?token=${token}" class="flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+            <a href="${GSO_DEV_URL}?token=${token}" class="dynamic-link flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
                 <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg bg-red-100 text-red-600">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
@@ -86,9 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         appsContainer.insertAdjacentHTML('beforeend', gsoDevLinkHTML);
     }
+}
 
+document.addEventListener('DOMContentLoaded', () => {
+    const signOutButton = document.getElementById('signout-button');
+    const userMenuButton = document.getElementById('user-menu-button');
+    const userMenu = document.getElementById('user-menu');
 
-    // --- 4. Set Up User Menu and Sign Out ---
+    // --- Set Up Event Listeners (runs only once) ---
     if (userMenuButton && userMenu) {
         userMenuButton.addEventListener('click', (event) => {
             event.stopPropagation(); 
@@ -107,5 +115,18 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('portalAuthToken');
             window.location.href = 'index.html';
         });
+    }
+
+    // --- Initial UI Update ---
+    updateDashboardUI();
+});
+
+/**
+ * Listen for the pageshow event to handle cases where the page is loaded from the back-forward cache (bfcache).
+ * This ensures the user's info is up-to-date if they log out and log back in as a different user.
+ */
+window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+        updateDashboardUI();
     }
 });
