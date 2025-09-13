@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // The URL of your deployed IT Helpdesk backend API
     const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
-    
+    // NEW: The URL for your GSO backend, which manages shared data like offices.
+    const GSO_API_BASE_URL = 'https://gso-backend-mns8.onrender.com';
 
     // --- HELPER: PASSWORD TOGGLE VISIBILITY ---
     const setupPasswordToggle = (toggleBtnId, passwordInputId, eyeIconId, eyeSlashIconId) => {
@@ -26,6 +27,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     eyeSlashIcon.classList.add('hidden');
                 }
             });
+        }
+    };
+
+    // --- NEW: FUNCTION TO POPULATE OFFICE DROPDOWN ---
+    const populateOfficesDropdown = async () => {
+        const officeSelect = document.getElementById('register-office');
+        if (!officeSelect) return;
+
+        try {
+            // Fetch the list of offices from the GSO backend's new public endpoint
+            const response = await fetch(`${GSO_API_BASE_URL}/api/offices/public`);
+            if (!response.ok) {
+                throw new Error('Could not load office list.');
+            }
+            const offices = await response.json();
+
+            // Clear current options and add a default
+            officeSelect.innerHTML = '<option value="">Select an Office...</option>';
+
+            // Populate the dropdown with fetched offices
+            offices.forEach(office => {
+                const option = document.createElement('option');
+                option.value = office.name;
+                option.textContent = office.name;
+                officeSelect.appendChild(option);
+            });
+
+        } catch (error) {
+            console.error('Error fetching offices:', error);
+            officeSelect.innerHTML = '<option value="">Could not load offices</option>';
         }
     };
 
@@ -145,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- INITIALIZE PASSWORD TOGGLES ---
+    // --- INITIALIZE PASSWORD TOGGLES & DYNAMIC DATA ---
     // For Login Form
     setupPasswordToggle(
         'login-toggle-password', 
@@ -167,4 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'register-confirm-eye-icon',
         'register-confirm-eye-slash-icon'
     );
+
+    // If we are on the registration page, populate the offices dropdown
+    if (registerForm) {
+        populateOfficesDropdown();
+    }
 });
