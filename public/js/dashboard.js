@@ -12,9 +12,6 @@ function updateDashboardUI() {
     const GSO_PROD_URL = 'https://lgudaet-gso-system.netlify.app/';
     const GSO_DEV_URL = 'https://dev-gso-system.netlify.app/'; // Your development link
 
-    // URL for your local GSO development server. Adjust the port (e.g., 5500) if necessary.
-    const GSO_LOCAL_URL = 'http://127.0.0.1:5500/';
-
     const token = localStorage.getItem('portalAuthToken');  
     if (!token) {
         window.location.href = 'index.html';
@@ -91,22 +88,6 @@ function updateDashboardUI() {
             </a>`;
         
         appsContainer.insertAdjacentHTML('beforeend', gsoDevLinkHTML);
-    }
-
-    // --- GSO System Link (Local Development) ---
-    const gsoLocalLinkHTML = `
-        <a href="${GSO_LOCAL_URL}?token=${token}" class="dynamic-link flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
-            <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg bg-gray-100 text-gray-600">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>
-            </div>
-            <div>
-                <h3 class="text-lg sm:text-xl font-semibold text-gray-800">GSO System (Local)</h3>
-                <p class="mt-1 text-sm sm:text-base text-gray-600">Access your local development version of the GSO system.</p>
-            </div>
-        </a>`;
-    
-    if (appsContainer) {
-        appsContainer.insertAdjacentHTML('beforeend', gsoLocalLinkHTML);
     }
 }
 
