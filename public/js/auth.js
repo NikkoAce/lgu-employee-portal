@@ -11,10 +11,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- NEW: MODAL HELPER FUNCTIONS ---
     const errorModal = document.getElementById('error-modal');
     const errorModalMessage = document.getElementById('error-modal-message');
+    const errorModalTitle = document.getElementById('error-modal-title');
     const errorModalCloseBtn = document.getElementById('error-modal-close-btn');
+    const successModal = document.getElementById('success-modal');
 
-    function showErrorModal(message) {
+    function showErrorModal(message, title = 'Login Failed') {
         if (errorModal && errorModalMessage) {
+            // Set the title of the modal for context (e.g., "Login Failed" or "Registration Failed")
+            if(errorModalTitle) {
+                errorModalTitle.textContent = title;
+            } else {
+                // Fallback for the login page which doesn't have a dynamic title
+                document.querySelector('#error-modal h3').textContent = title;
+            }
             errorModalMessage.textContent = message;
             errorModal.classList.remove('hidden');
             errorModal.classList.add('flex');
@@ -30,6 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (errorModalCloseBtn) {
         errorModalCloseBtn.addEventListener('click', hideErrorModal);
+    }
+
+    // Helper to show the success modal and hide the form
+    function showSuccessModal() {
+        if (successModal) {
+            // Hide the main form container
+            const formContainer = document.querySelector('.w-full.max-w-md');
+            if (formContainer) formContainer.style.display = 'none';
+            
+            successModal.classList.remove('hidden');
+            successModal.classList.add('flex');
+        }
     }
 
     // --- HELPER: PASSWORD TOGGLE VISIBILITY ---
@@ -116,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('portalAuthToken', token);
                 window.location.href = 'dashboard.html';
             } catch (error) {
-                showErrorModal(error.message);
+                showErrorModal(error.message, 'Login Failed');
             } finally {
                 spinner.classList.add('hidden');
                 buttonText.classList.remove('hidden');
@@ -131,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const passwordInput = document.getElementById('register-password');
         const confirmPasswordInput = document.getElementById('register-confirm-password');
         const privacyConsentCheckbox = document.getElementById('privacy-consent');
+        
 
         const clearPasswordError = () => {
             if (passwordInput.classList.contains('border-red-500')) {
@@ -149,10 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const buttonText = document.getElementById('register-button-text');
             const spinner = document.getElementById('register-spinner');
 
-            // --- Password Match Validation ---
-            clearPasswordError();
+            registerMessage.textContent = ''; // Clear previous inline messages
+
             if (passwordInput.value !== confirmPasswordInput.value) {
-                registerMessage.textContent = 'Error: Passwords do not match.';
+                registerMessage.textContent = 'Passwords do not match.';
                 registerMessage.className = 'text-sm text-red-600';
                 passwordInput.classList.add('border-red-500');
                 confirmPasswordInput.classList.add('border-red-500');
@@ -177,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const registerData = Object.fromEntries(formData.entries());
             // We don't need to send the confirmation password to the backend
             delete registerData.confirmPassword;
+            delete registerData['privacy-consent'];
 
             try {
                 const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
@@ -190,16 +213,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error(result.message || 'Registration failed.');
                 }
                 
-                registerMessage.textContent = 'Registration successful! Please sign in.';
-                registerMessage.className = 'text-sm text-green-600';
-                registerForm.reset();
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 2000);
+                // On success, show the dedicated success modal
+                showSuccessModal();
 
             } catch (error) {
-                registerMessage.textContent = `Error: ${error.message}`;
-                registerMessage.className = 'text-sm text-red-600';
+                // On API error, use the consistent error modal
+                showErrorModal(error.message, 'Registration Failed');
             } finally {
                 spinner.classList.add('hidden');
                 buttonText.classList.remove('hidden');
@@ -233,6 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // If we are on the registration page, populate the offices dropdown
     if (registerForm) {
-        populateOfficesDropdown();
+        populateOffices();
     }
 });
