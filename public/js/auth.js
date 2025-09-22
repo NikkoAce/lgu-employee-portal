@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorModalTitle = document.getElementById('error-modal-title');
     const successModal = document.getElementById('success-modal');
     const successModalCloseBtn = document.getElementById('success-modal-close-btn');
+    const container = document.getElementById('container');
 
     function showErrorModal(message, title = 'Login Failed') {
         if (errorModal && errorModalMessage && errorModalTitle) {
@@ -40,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- NEW: PANEL TOGGLING LOGIC ---
-    const container = document.getElementById('container');
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
 
@@ -53,28 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
             container.classList.remove('right-panel-active');
         });
     }
-
-    // --- HELPER: PASSWORD TOGGLE VISIBILITY ---
-    const setupPasswordToggle = (toggleBtnId, passwordInputId, eyeIconId, eyeSlashIconId) => {
-        const toggleButton = document.getElementById(toggleBtnId);
-        const passwordInput = document.getElementById(passwordInputId);
-        const eyeIcon = document.getElementById(eyeIconId);
-        const eyeSlashIcon = document.getElementById(eyeSlashIconId);
-
-        if (toggleButton && passwordInput && eyeIcon && eyeSlashIcon) {
-            toggleButton.addEventListener('click', () => {
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    eyeIcon.classList.add('hidden');
-                    eyeSlashIcon.classList.remove('hidden');
-                } else {
-                    passwordInput.type = 'password';
-                    eyeIcon.classList.remove('hidden');
-                    eyeSlashIcon.classList.add('hidden');
-                }
-            });
-        }
-    };
 
     // --- NEW: FUNCTION TO POPULATE OFFICE DROPDOWN ---
     const populateOfficesDropdown = async () => {
@@ -197,29 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // --- INITIALIZE PASSWORD TOGGLES & DYNAMIC DATA ---
-    // For Login Form
-    setupPasswordToggle(
-        'login-toggle-password', 
-        'login-password', 
-        'login-eye-icon', 
-        'login-eye-slash-icon'
-    );
-    // For Register Form
-    setupPasswordToggle(
-        'register-toggle-password', 
-        'register-password', 
-        'register-eye-icon', 
-        'register-eye-slash-icon'
-    );
-    // For Register Form's Confirm Password
-    setupPasswordToggle(
-        'register-toggle-confirm-password',
-        'register-confirm-password',
-        'register-confirm-eye-icon',
-        'register-confirm-eye-slash-icon'
-    );
 
     // If we are on the registration page, populate the offices dropdown
     if (registerForm) {
