@@ -52,7 +52,6 @@
                     Forgot your password?
                 </a>
             </div>
-            <p id="login-message" class="text-sm text-red-600"></p>
             <div>
                 <button type="submit" class="w-full flex justify-center items-center px-4 py-2 font-medium text-white bg-sky-600 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors duration-200">
                     <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" id="login-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -67,6 +66,33 @@
             Don't have an account? 
             <a href="register.html" class="font-medium text-sky-600 hover:underline transition-colors duration-200">Sign Up</a>
         </p>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="error-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 transition-opacity">
+        <div class="w-full max-w-sm rounded-lg bg-white p-6 shadow-xl transform transition-all">
+            <div class="flex items-start">
+                <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <!-- Heroicon - Exclamation Triangle -->
+                    <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z" />
+                    </svg>
+                </div>
+                <div class="ml-4 mt-0 text-left">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Login Failed</h3>
+                    <div class="mt-2">
+                        <p id="error-modal-message" class="text-sm text-gray-500">
+                            Invalid credentials provided.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                <button id="error-modal-close-btn" type="button" class="inline-flex w-full justify-center rounded-md bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 sm:ml-3 sm:w-auto sm:text-sm">
+                    Close
+                </button>
+            </div>
+        </div>
     </div>
 </body>
 </html>

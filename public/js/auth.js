@@ -8,6 +8,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // NEW: The URL for your GSO backend, which manages shared data like offices.
     const GSO_API_BASE_URL = 'https://gso-backend-mns8.onrender.com';
 
+    // --- NEW: MODAL HELPER FUNCTIONS ---
+    const errorModal = document.getElementById('error-modal');
+    const errorModalMessage = document.getElementById('error-modal-message');
+    const errorModalCloseBtn = document.getElementById('error-modal-close-btn');
+
+    function showErrorModal(message) {
+        if (errorModal && errorModalMessage) {
+            errorModalMessage.textContent = message;
+            errorModal.classList.remove('hidden');
+            errorModal.classList.add('flex');
+        }
+    }
+
+    function hideErrorModal() {
+        if (errorModal) {
+            errorModal.classList.add('hidden');
+            errorModal.classList.remove('flex');
+        }
+    }
+
+    if (errorModalCloseBtn) {
+        errorModalCloseBtn.addEventListener('click', hideErrorModal);
+    }
+
     // --- HELPER: PASSWORD TOGGLE VISIBILITY ---
     const setupPasswordToggle = (toggleBtnId, passwordInputId, eyeIconId, eyeSlashIconId) => {
         const toggleButton = document.getElementById(toggleBtnId);
@@ -62,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LOGIN FORM LOGIC ---
     if (loginForm) {
-        const loginMessage = document.getElementById('login-message');
+        // The text-based login message is no longer needed, it's replaced by the modal.
 
         loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -75,7 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
             buttonText.classList.add('hidden');
             spinner.classList.remove('hidden');
 
-            loginMessage.textContent = '';
             const formData = new FormData(loginForm);
             const loginData = Object.fromEntries(formData.entries());
 
@@ -93,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('portalAuthToken', token);
                 window.location.href = 'dashboard.html';
             } catch (error) {
-                loginMessage.textContent = `Error: ${error.message}`;
+                showErrorModal(error.message);
             } finally {
                 spinner.classList.add('hidden');
                 buttonText.classList.remove('hidden');
@@ -107,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const registerMessage = document.getElementById('register-message');
         const passwordInput = document.getElementById('register-password');
         const confirmPasswordInput = document.getElementById('register-confirm-password');
+        const privacyConsentCheckbox = document.getElementById('privacy-consent');
 
         const clearPasswordError = () => {
             if (passwordInput.classList.contains('border-red-500')) {
@@ -132,6 +156,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 registerMessage.className = 'text-sm text-red-600';
                 passwordInput.classList.add('border-red-500');
                 confirmPasswordInput.classList.add('border-red-500');
+                return; // Stop the submission
+            }
+
+            // --- NEW: Privacy Consent Validation ---
+            if (!privacyConsentCheckbox || !privacyConsentCheckbox.checked) {
+                registerMessage.textContent = 'You must agree to the privacy policy to continue.';
+                registerMessage.className = 'text-sm text-red-600';
+                privacyConsentCheckbox.focus();
                 return; // Stop the submission
             }
 
