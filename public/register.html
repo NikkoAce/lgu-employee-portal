@@ -9,113 +9,72 @@
 </head>
 <body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
 
-    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <div class="text-center">
-            <img src="LGU-DAET LOGO.png" alt="LGU Logo" class="mx-auto h-20 w-20 rounded-full">
-            <h2 class="mt-4 text-2xl font-bold text-gray-800">Create a New Account</h2>
-            <p class="text-gray-600">LGU Employee Portal</p>
+    <div class="card w-full max-w-md bg-base-100 shadow-xl">
+        <div class="card-body items-center text-center">
+            <div class="avatar">
+                <div class="w-24 rounded-full">
+                    <img src="LGU-DAET LOGO.png" alt="LGU Logo" />
+                </div>
+            </div>
+            <h2 class="card-title">Create a New Account</h2>
+            <p>LGU Employee Portal</p>
+
+            <!-- Registration Form -->
+            <form id="register-form" class="w-full space-y-3 mt-4">
+                <label class="form-control w-full">
+                    <select id="register-employmentType" name="employmentType" required class="select select-bordered">
+                        <option value="Permanent">Permanent</option>
+                        <option value="Job Order">Job Order</option>
+                    </select>
+                </label>
+                <label class="input input-bordered flex items-center gap-2">
+                    <input id="register-employeeId" name="employeeId" type="text" required class="grow" placeholder="Employee ID" />
+                </label>
+                <label class="input input-bordered flex items-center gap-2">
+                    <input id="register-name" name="name" type="text" required class="grow" placeholder="Full Name" />
+                </label>
+                <label class="input input-bordered flex items-center gap-2">
+                    <input id="register-email" name="email" type="email" required placeholder="Email Address" class="grow" />
+                </label>
+                <label class="form-control w-full">
+                    <select id="register-office" name="office" required class="select select-bordered">
+                        <option value="">Loading Offices...</option>
+                    </select>
+                </label>
+                <label class="form-control w-full">
+                    <select id="register-role" name="role" required class="select select-bordered">
+                        <option value="Employee">Employee</option>
+                        <option value="Department Head">Department Head</option>
+                    </select>
+                </label>
+                <label class="input input-bordered flex items-center gap-2">
+                    <input id="register-password" name="password" type="password" required class="grow" placeholder="Password" />
+                </label>
+                <label class="input input-bordered flex items-center gap-2">
+                    <input id="register-confirm-password" name="confirmPassword" type="password" required class="grow" placeholder="Confirm Password" />
+                </label>
+
+                <!-- Data Privacy Consent -->
+                <div class="form-control text-left">
+                    <label class="cursor-pointer label">
+                        <input id="privacy-consent" name="privacy-consent" type="checkbox" class="checkbox checkbox-primary" />
+                        <span class="label-text ml-2">I agree to the <a href="#" class="link link-primary">Privacy Policy</a>.</span>
+                    </label>
+                </div>
+
+                <p id="register-message" class="text-sm h-4"></p>
+                <div class="card-actions justify-end w-full">
+                    <button type="submit" class="btn btn-primary w-full">
+                        <span id="register-button-text">Register Account</span>
+                        <span id="register-spinner" class="loading loading-spinner hidden"></span>
+                    </button>
+                </div>
+            </form>
+            <p class="mt-4 text-sm">
+                Already have an account?
+                <a href="index.html" class="link link-primary">Sign In</a>
+            </p>
         </div>
-        
-        <!-- Registration Form -->
-        <form id="register-form" class="mt-6 space-y-3">
-            <div>
-                <label for="register-employmentType" class="text-sm font-medium text-gray-700">Employment Type</label>
-                <select id="register-employmentType" name="employmentType" required class="w-full px-3 py-2 mt-1 border rounded-md">
-                    <option value="Permanent">Permanent</option>
-                    <option value="Job Order">Job Order</option>
-                </select>
-            </div>
-            <div>
-                <label for="register-employeeId" class="text-sm font-medium text-gray-700">Employee ID</label>
-                <input id="register-employeeId" name="employeeId" type="text" required class="w-full px-3 py-2 mt-1 border rounded-md">
-            </div>
-             <div>
-                <label for="register-name" class="text-sm font-medium text-gray-700">Full Name</label>
-                <input id="register-name" name="name" type="text" required class="w-full px-3 py-2 mt-1 border rounded-md">
-            </div>
-            <div>
-                <label for="register-email" class="text-sm font-medium text-gray-700">Email Address</label>
-                <input id="register-email" name="email" type="email" required placeholder="name@lgu.gov.ph" class="w-full px-3 py-2 mt-1 border rounded-md">
-            </div>
-            <div>
-                <label for="register-office" class="text-sm font-medium text-gray-700">Office / Department</label>
-                <select id="register-office" name="office" required class="w-full px-3 py-2 mt-1 border rounded-md">
-                    <option value="">Loading Offices...</option>
-                </select>
-            </div>
-            <div>
-                <label for="register-role" class="text-sm font-medium text-gray-700">Role</label>
-                <select id="register-role" name="role" required class="w-full px-3 py-2 mt-1 border rounded-md">
-                    <option value="Employee">Employee</option>
-                    <option value="Department Head">Department Head</option>
-                </select>
-            </div>
-            <div>
-                <label for="register-password" class="text-sm font-medium text-gray-700">Password</label>
-                <div class="relative mt-1">
-                    <input id="register-password" name="password" type="password" required class="w-full px-3 py-2 border rounded-md pr-10">
-                    <button type="button" id="register-toggle-password" class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700 focus:outline-none">
-                        <!-- Eye icon -->
-                        <svg id="register-eye-icon" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639l4.443-5.553a1.012 1.012 0 0 1 1.59 0l4.443 5.553a1.012 1.012 0 0 1 0 .639l-4.443 5.553a1.012 1.012 0 0 1-1.59 0l-4.443-5.553Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>
-                        <!-- Eye-slash icon (hidden by default) -->
-                        <svg id="register-eye-slash-icon" class="h-5 w-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.243 4.243L6.228 6.228" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div>
-                <label for="register-confirm-password" class="text-sm font-medium text-gray-700">Confirm Password</label>
-                <div class="relative mt-1">
-                    <input id="register-confirm-password" name="confirmPassword" type="password" required class="w-full px-3 py-2 border rounded-md pr-10">
-                    <button type="button" id="register-toggle-confirm-password" class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700 focus:outline-none">
-                        <!-- Eye icon -->
-                        <svg id="register-confirm-eye-icon" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639l4.443-5.553a1.012 1.012 0 0 1 1.59 0l4.443 5.553a1.012 1.012 0 0 1 0 .639l-4.443 5.553a1.012 1.012 0 0 1-1.59 0l-4.443-5.553Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>
-                        <!-- Eye-slash icon (hidden by default) -->
-                        <svg id="register-confirm-eye-slash-icon" class="h-5 w-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.243 4.243L6.228 6.228" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Data Privacy Consent -->
-            <div class="space-y-3 rounded-md border border-gray-200 bg-gray-50 p-4">
-                <h4 class="text-sm font-semibold text-gray-800">Data Privacy Consent</h4>
-                <p class="text-xs text-gray-600">
-                    The information you provide will be used solely for the purpose of creating and managing your account within the LGU DAET employee portal. This data will be shared across our integrated systems (like HR, GSOMS, and other company platforms) to ensure seamless service and accurate records related to your employment.
-                </p>
-                <div class="relative flex items-start">
-                    <div class="flex h-6 items-center">
-                        <input id="privacy-consent" name="privacy-consent" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500">
-                    </div>
-                    <div class="ml-3 text-sm leading-6">
-                        <label for="privacy-consent" class="font-medium text-gray-900">I have read, understood, and agree to the LGU Daet Privacy Policy and consent to the processing of my personal data as described.</label>
-                    </div>
-                </div>
-            </div>
-
-            <p id="register-message" class="text-sm"></p>
-            <div>
-                <button type="submit" class="w-full flex justify-center items-center px-4 py-2 font-medium text-white bg-sky-600 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors duration-200">
-                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" id="register-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span id="register-button-text">Register Account</span>
-                </button>
-            </div>
-        </form>
-         <p class="mt-6 text-sm text-center text-gray-600">
-            Already have an account? 
-            <a href="index.html" class="font-medium text-sky-600 hover:underline transition-colors duration-200">Sign In</a>
-        </p>
     </div>
 
     <!-- Success Modal -->

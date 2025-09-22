@@ -132,25 +132,25 @@
             <form id="register-form" class="bg-white flex items-center justify-center flex-col px-12 h-full text-center">
                 <h1 class="text-2xl font-bold mb-4">Create Account</h1>
                 <div class="w-full space-y-2">
-                    <select id="register-employmentType" name="employmentType" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                    <select id="register-employmentType" name="employmentType" required class="select select-bordered w-full text-sm">
                         <option value="Permanent">Permanent</option>
                         <option value="Job Order">Job Order</option>
                     </select>
-                    <input id="register-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
-                    <input id="register-name" name="name" type="text" placeholder="Full Name" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
-                    <input id="register-email" name="email" type="email" placeholder="Email" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
-                    <select id="register-office" name="office" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                    <input id="register-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full text-sm">
+                    <input id="register-name" name="name" type="text" placeholder="Full Name" required class="input input-bordered w-full text-sm">
+                    <input id="register-email" name="email" type="email" placeholder="Email" required class="input input-bordered w-full text-sm">
+                    <select id="register-office" name="office" required class="select select-bordered w-full text-sm">
                         <option value="">Loading Offices...</option>
                     </select>
-                    <select id="register-role" name="role" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                    <select id="register-role" name="role" required class="select select-bordered w-full text-sm">
                         <option value="Employee">Employee</option>
                         <option value="Department Head">Department Head</option>
                     </select>
-                    <input id="register-password" name="password" type="password" placeholder="Password" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
-                    <input id="register-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Password" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                    <input id="register-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm">
+                    <input id="register-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Password" required class="input input-bordered w-full text-sm">
                 </div>
                 <p id="register-message" class="text-sm h-4 mt-2"></p>
-                <button type="submit" class="rounded-full border border-sky-500 bg-sky-500 text-white text-sm font-bold px-12 py-3 uppercase tracking-wider transform transition-transform duration-75 ease-in active:scale-95 mt-4">
+                <button type="submit" class="btn btn-primary mt-4">
                     Sign Up
                 </button>
             </form>
@@ -161,15 +161,15 @@
             <form id="login-form" class="bg-white flex items-center justify-center flex-col px-12 h-full text-center">
                 <h1 class="text-2xl font-bold mb-4">Sign In</h1>
                 <div class="w-full space-y-3">
-                    <select id="login-employmentType" name="employmentType" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                    <select id="login-employmentType" name="employmentType" required class="select select-bordered w-full text-sm">
                         <option value="Permanent">Permanent</option>
                         <option value="Job Order">Job Order</option>
                     </select>
-                    <input id="login-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
-                    <input id="login-password" name="password" type="password" placeholder="Password" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                    <input id="login-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full text-sm">
+                    <input id="login-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm">
                 </div>
-                <a href="forgot-password.html" class="text-sm text-gray-500 my-4 hover:underline">Forgot your password?</a>
-                <button type="submit" class="rounded-full border border-sky-500 bg-sky-500 text-white text-sm font-bold px-12 py-3 uppercase tracking-wider transform transition-transform duration-75 ease-in active:scale-95">
+                <a href="forgot-password.html" class="link link-hover my-4 text-sm">Forgot your password?</a>
+                <button type="submit" class="btn btn-primary">
                     Sign In
                 </button>
             </form>
@@ -182,14 +182,14 @@
                 <div class="overlay-panel overlay-left">
                     <h1 class="text-3xl font-bold">Welcome Back!</h1>
                     <p class="text-sm font-light leading-snug mt-4 mb-6">To keep connected with us please login with your personal info</p>
-                    <button class="ghost-button rounded-full border border-white text-white text-sm font-bold px-12 py-3 uppercase tracking-wider transform transition-transform duration-75 ease-in active:scale-95" id="signIn">Sign In</button>
+                    <button class="btn btn-ghost" id="signIn">Sign In</button>
                 </div>
                 <!-- Right Overlay Panel (for Sign Up) -->
                 <div class="overlay-panel overlay-right">
                     <img src="LGU-DAET LOGO.png" alt="LGU Logo" class="h-20 w-20 rounded-full mb-4">
                     <h1 class="text-3xl font-bold">Hello, Employee!</h1>
                     <p class="text-sm font-light leading-snug mt-4 mb-6">Enter your personal details and start your journey with us</p>
-                    <button class="ghost-button rounded-full border border-white text-white text-sm font-bold px-12 py-3 uppercase tracking-wider transform transition-transform duration-75 ease-in active:scale-95" id="signUp">Sign Up</button>
+                    <button class="btn btn-ghost" id="signUp">Sign Up</button>
                 </div>
             </div>
         </div>
