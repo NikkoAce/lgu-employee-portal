@@ -78,18 +78,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- NEW: FUNCTION TO POPULATE OFFICE DROPDOWN ---
     const populateOfficesDropdown = async () => {
-        const officeSelect = document.getElementById('register-office');
-        if (!officeSelect) return;
+        const officeContainer = document.getElementById('office-select-container');
+        if (!officeContainer) return;
 
         try {
             // Fetch the list of offices from the GSO backend's new public endpoint
             const response = await fetch(`${GSO_API_BASE_URL}/api/offices/public`);
             if (!response.ok) {
-                throw new Error('Could not load office list.');
+                throw new Error(`Network response was not ok: ${response.statusText}`);
             }
             const offices = await response.json();
 
-            // Clear current options and add a default
+            // Create the new select element
+            const officeSelect = document.createElement('select');
+            officeSelect.id = 'register-office';
+            officeSelect.name = 'office';
+            officeSelect.required = true;
+            officeSelect.className = 'select select-bordered w-full text-sm';
+
+            // Add a default placeholder option
             officeSelect.innerHTML = '<option value="">Select an Office...</option>';
 
             // Populate the dropdown with fetched offices
@@ -100,9 +107,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 officeSelect.appendChild(option);
             });
 
+            // Replace the skeleton loader with the populated select element
+            officeContainer.innerHTML = '';
+            officeContainer.appendChild(officeSelect);
+
         } catch (error) {
             console.error('Error fetching offices:', error);
-            officeSelect.innerHTML = '<option value="">Could not load offices</option>';
+            // In case of an error, replace the skeleton with a disabled select showing the error
+            officeContainer.innerHTML = `
+                <select class="select select-bordered select-error w-full text-sm" disabled>
+                    <option>Could not load offices</option>
+                </select>
+            `;
         }
     };
 
