@@ -59,7 +59,18 @@
                                 <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
                             </svg>
                         </span>
-                        <input id="register-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm pl-10">
+                        <input id="register-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm pl-10 pr-10">
+                        <button type="button" id="register-toggle-password" class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
+                            <svg id="register-eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-500">
+                                <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                                <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.18l3.75-3.75a1.651 1.651 0 0 1 2.332 0L10 8.828l3.254-3.254a1.651 1.651 0 0 1 2.332 0l3.75 3.75a1.651 1.651 0 0 1 0 1.18l-3.75 3.75a1.651 1.651 0 0 1-2.332 0L10 11.172l-3.254 3.254a1.651 1.651 0 0 1-2.332 0l-3.75-3.75Zm10.582-4.242a.75.75 0 0 0-1.06-1.06L10 5.668 8.162 3.83a.75.75 0 0 0-1.06 1.06L8.83 6.83 7.002 8.66a.75.75 0 0 0 1.06 1.06L10 8.33l1.838 1.838a.75.75 0 0 0 1.06-1.06L11.17 6.83l1.838-1.838Z" clip-rule="evenodd" />
+                            </svg>
+                            <svg id="register-eye-slash-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-500 hidden">
+                                <path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 0 0-1.06 1.06l14.5 14.5a.75.75 0 1 0 1.06-1.06l-1.745-1.745a10.029 10.029 0 0 0 3.3-4.38c-1.54-4.02-5.49-6.8-9.96-6.8a11.523 11.523 0 0 0-2.26.24l-2.26-2.26ZM10 4.5c2.9 0 5.454 1.46 7.06 3.69a9.968 9.968 0 0 1-1.618 2.93l-1.544-1.544a2.5 2.5 0 0 0-3.3-3.3L10 4.5ZM7.953 7.953l-1.426-1.426A5.503 5.503 0 0 1 10 6.5c1.48 0 2.807.57 3.79 1.504l-1.538 1.538a.75.75 0 0 0-1.06-1.061l-1.242-1.242a2.5 2.5 0 0 0-3.3 3.3Z" clip-rule="evenodd" />
+                                <path d="m12.879 12.879-1.242-1.242a.75.75 0 0 0-1.06-1.061L8.939 8.94a5.503 5.503 0 0 1 7.313 7.313l-1.426-1.426A2.5 2.5 0 0 0 12.879 12.879Z" />
+                                <path d="M10 15.5c-2.9 0-5.454-1.46-7.06-3.69a9.968 9.968 0 0 1 1.618-2.93l1.544 1.544a2.5 2.5 0 0 0 3.3 3.3l1.426 1.426A5.503 5.503 0 0 1 10 15.5Z" />
+                            </svg>
+                        </button>
                     </div>
                     <div class="relative w-full">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -67,7 +78,18 @@
                                 <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
                             </svg>
                         </span>
-                        <input id="register-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Password" required class="input input-bordered w-full text-sm pl-10">
+                        <input id="register-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Password" required class="input input-bordered w-full text-sm pl-10 pr-10">
+                        <button type="button" id="register-toggle-confirm-password" class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
+                            <svg id="register-confirm-eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-500">
+                                <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                                <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.18l3.75-3.75a1.651 1.651 0 0 1 2.332 0L10 8.828l3.254-3.254a1.651 1.651 0 0 1 2.332 0l3.75 3.75a1.651 1.651 0 0 1 0 1.18l-3.75 3.75a1.651 1.651 0 0 1-2.332 0L10 11.172l-3.254 3.254a1.651 1.651 0 0 1-2.332 0l-3.75-3.75Zm10.582-4.242a.75.75 0 0 0-1.06-1.06L10 5.668 8.162 3.83a.75.75 0 0 0-1.06 1.06L8.83 6.83 7.002 8.66a.75.75 0 0 0 1.06 1.06L10 8.33l1.838 1.838a.75.75 0 0 0 1.06-1.06L11.17 6.83l1.838-1.838Z" clip-rule="evenodd" />
+                            </svg>
+                            <svg id="register-confirm-eye-slash-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-500 hidden">
+                                <path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 0 0-1.06 1.06l14.5 14.5a.75.75 0 1 0 1.06-1.06l-1.745-1.745a10.029 10.029 0 0 0 3.3-4.38c-1.54-4.02-5.49-6.8-9.96-6.8a11.523 11.523 0 0 0-2.26.24l-2.26-2.26ZM10 4.5c2.9 0 5.454 1.46 7.06 3.69a9.968 9.968 0 0 1-1.618 2.93l-1.544-1.544a2.5 2.5 0 0 0-3.3-3.3L10 4.5ZM7.953 7.953l-1.426-1.426A5.503 5.503 0 0 1 10 6.5c1.48 0 2.807.57 3.79 1.504l-1.538 1.538a.75.75 0 0 0-1.06-1.061l-1.242-1.242a2.5 2.5 0 0 0-3.3 3.3Z" clip-rule="evenodd" />
+                                <path d="m12.879 12.879-1.242-1.242a.75.75 0 0 0-1.06-1.061L8.939 8.94a5.503 5.503 0 0 1 7.313 7.313l-1.426-1.426A2.5 2.5 0 0 0 12.879 12.879Z" />
+                                <path d="M10 15.5c-2.9 0-5.454-1.46-7.06-3.69a9.968 9.968 0 0 1 1.618-2.93l1.544 1.544a2.5 2.5 0 0 0 3.3 3.3l1.426 1.426A5.503 5.503 0 0 1 10 15.5Z" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
                 <div class="form-control text-left pt-2 w-full">
@@ -105,7 +127,18 @@
                                 <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
                             </svg>
                         </span>
-                        <input id="login-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm pl-10">
+                        <input id="login-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm pl-10 pr-10">
+                        <button type="button" id="login-toggle-password" class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
+                            <svg id="login-eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-500">
+                                <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                                <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.18l3.75-3.75a1.651 1.651 0 0 1 2.332 0L10 8.828l3.254-3.254a1.651 1.651 0 0 1 2.332 0l3.75 3.75a1.651 1.651 0 0 1 0 1.18l-3.75 3.75a1.651 1.651 0 0 1-2.332 0L10 11.172l-3.254 3.254a1.651 1.651 0 0 1-2.332 0l-3.75-3.75Zm10.582-4.242a.75.75 0 0 0-1.06-1.06L10 5.668 8.162 3.83a.75.75 0 0 0-1.06 1.06L8.83 6.83 7.002 8.66a.75.75 0 0 0 1.06 1.06L10 8.33l1.838 1.838a.75.75 0 0 0 1.06-1.06L11.17 6.83l1.838-1.838Z" clip-rule="evenodd" />
+                            </svg>
+                            <svg id="login-eye-slash-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-500 hidden">
+                                <path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 0 0-1.06 1.06l14.5 14.5a.75.75 0 1 0 1.06-1.06l-1.745-1.745a10.029 10.029 0 0 0 3.3-4.38c-1.54-4.02-5.49-6.8-9.96-6.8a11.523 11.523 0 0 0-2.26.24l-2.26-2.26ZM10 4.5c2.9 0 5.454 1.46 7.06 3.69a9.968 9.968 0 0 1-1.618 2.93l-1.544-1.544a2.5 2.5 0 0 0-3.3-3.3L10 4.5ZM7.953 7.953l-1.426-1.426A5.503 5.503 0 0 1 10 6.5c1.48 0 2.807.57 3.79 1.504l-1.538 1.538a.75.75 0 0 0-1.06-1.061l-1.242-1.242a2.5 2.5 0 0 0-3.3 3.3Z" clip-rule="evenodd" />
+                                <path d="m12.879 12.879-1.242-1.242a.75.75 0 0 0-1.06-1.061L8.939 8.94a5.503 5.503 0 0 1 7.313 7.313l-1.426-1.426A2.5 2.5 0 0 0 12.879 12.879Z" />
+                                <path d="M10 15.5c-2.9 0-5.454-1.46-7.06-3.69a9.968 9.968 0 0 1 1.618-2.93l1.544 1.544a2.5 2.5 0 0 0 3.3 3.3l1.426 1.426A5.503 5.503 0 0 1 10 15.5Z" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
                 <a href="forgot-password.html" class="link link-hover my-4 text-sm">Forgot your password?</a>
