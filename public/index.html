@@ -20,9 +20,32 @@
                         <option value="Permanent">Permanent</option>
                         <option value="Job Order">Job Order</option>
                     </select>
-                    <input id="register-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full text-sm">
-                    <input id="register-name" name="name" type="text" placeholder="Full Name" required class="input input-bordered w-full text-sm">
-                    <input id="register-email" name="email" type="email" placeholder="Email" required class="input input-bordered w-full text-sm">
+                    <div class="relative w-full">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-400">
+                                <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v11A1.5 1.5 0 0 0 2.5 17h15a1.5 1.5 0 0 0 1.5-1.5v-11A1.5 1.5 0 0 0 17.5 3h-15Zm13.5 3.5a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75Zm-.75 3.25a.75.75 0 0 1 0 1.5H9.75a.75.75 0 0 1 0-1.5h5.5ZM4.75 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5Z" clip-rule="evenodd" />
+                                <path d="M5.5 6a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-1Z" />
+                            </svg>
+                        </span>
+                        <input id="register-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full text-sm pl-10">
+                    </div>
+                    <div class="relative w-full">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-400">
+                                <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.41-1.412A6.998 6.998 0 0 0 10 11.5a6.998 6.998 0 0 0-6.535 2.993Z" />
+                            </svg>
+                        </span>
+                        <input id="register-name" name="name" type="text" placeholder="Full Name" required class="input input-bordered w-full text-sm pl-10">
+                    </div>
+                    <div class="relative w-full">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-400">
+                                <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+                                <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+                            </svg>
+                        </span>
+                        <input id="register-email" name="email" type="email" placeholder="Email" required class="input input-bordered w-full text-sm pl-10">
+                    </div>
                     <select id="register-office" name="office" required class="select select-bordered w-full text-sm">
                         <option value="">Loading Offices...</option>
                     </select>
@@ -30,8 +53,22 @@
                         <option value="Employee">Employee</option>
                         <option value="Department Head">Department Head</option>
                     </select>
-                    <input id="register-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm">
-                    <input id="register-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Password" required class="input input-bordered w-full text-sm">
+                    <div class="relative w-full">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-400">
+                                <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        <input id="register-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm pl-10">
+                    </div>
+                    <div class="relative w-full">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-400">
+                                <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        <input id="register-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Password" required class="input input-bordered w-full text-sm pl-10">
+                    </div>
                 </div>
                 <div class="form-control text-left pt-2 w-full">
                     <label class="cursor-pointer label justify-start">
@@ -53,8 +90,23 @@
                         <option value="Permanent">Permanent</option>
                         <option value="Job Order">Job Order</option>
                     </select>
-                    <input id="login-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full text-sm">
-                    <input id="login-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm">
+                    <div class="relative w-full">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-400">
+                                <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v11A1.5 1.5 0 0 0 2.5 17h15a1.5 1.5 0 0 0 1.5-1.5v-11A1.5 1.5 0 0 0 17.5 3h-15Zm13.5 3.5a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75Zm-.75 3.25a.75.75 0 0 1 0 1.5H9.75a.75.75 0 0 1 0-1.5h5.5ZM4.75 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5Z" clip-rule="evenodd" />
+                                <path d="M5.5 6a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-1Z" />
+                            </svg>
+                        </span>
+                        <input id="login-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full text-sm pl-10">
+                    </div>
+                    <div class="relative w-full">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-400">
+                                <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        <input id="login-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm pl-10">
+                    </div>
                 </div>
                 <a href="forgot-password.html" class="link link-hover my-4 text-sm">Forgot your password?</a>
                 <button type="submit" class="btn btn-primary">Sign In</button>

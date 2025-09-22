@@ -112,31 +112,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- REGISTRATION FORM LOGIC ---
     if (registerForm) {
+        const emailInput = document.getElementById('register-email');
         const passwordInput = document.getElementById('register-password');
         const confirmPasswordInput = document.getElementById('register-confirm-password');
         const registerMessage = document.getElementById('register-message');
 
-        const clearPasswordError = () => {
-            if (passwordInput && passwordInput.classList.contains('input-error')) {
-                passwordInput.classList.remove('input-error');
-                confirmPasswordInput.classList.remove('input-error');
-                if (registerMessage) registerMessage.textContent = '';
-            }
+        // --- NEW: Validation Helper Functions ---
+        const validateEmail = (email) => {
+            // Basic email regex
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        };
+
+        const validatePasswordStrength = (password) => {
+            // Requires 8+ chars, 1 uppercase, 1 lowercase, 1 number
+            const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+            return re.test(password);
+        };
+
+        const clearAllErrors = () => {
+            if (registerMessage) registerMessage.textContent = '';
+            if (emailInput) emailInput.classList.remove('input-error');
+            if (passwordInput) passwordInput.classList.remove('input-error');
+            if (confirmPasswordInput) confirmPasswordInput.classList.remove('input-error');
         };
         
-        if (passwordInput) passwordInput.addEventListener('input', clearPasswordError);
-        if (confirmPasswordInput) confirmPasswordInput.addEventListener('input', clearPasswordError);
+        // Clear errors when user starts typing in any of the validated fields
+        if (emailInput) emailInput.addEventListener('input', clearAllErrors);
+        if (passwordInput) passwordInput.addEventListener('input', clearAllErrors);
+        if (confirmPasswordInput) confirmPasswordInput.addEventListener('input', clearAllErrors);
 
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            if (registerMessage) registerMessage.textContent = ''; // Clear previous inline messages
+            clearAllErrors(); // Clear previous errors on new submission
+
+            // --- NEW: Email Format Validation ---
+            if (!validateEmail(emailInput.value)) {
+                registerMessage.textContent = 'Please enter a valid email address.';
+                registerMessage.className = 'text-sm text-error';
+                emailInput.classList.add('input-error');
+                return;
+            }
+
+            // --- NEW: Password Strength Validation ---
+            if (!validatePasswordStrength(passwordInput.value)) {
+                registerMessage.textContent = 'Password must be 8+ characters with uppercase, lowercase, and a number.';
+                registerMessage.className = 'text-sm text-error';
+                passwordInput.classList.add('input-error');
+                return;
+            }
 
             if (passwordInput.value !== confirmPasswordInput.value) {
                 registerMessage.textContent = 'Passwords do not match.';
                 registerMessage.className = 'text-sm text-error';
                 passwordInput.classList.add('input-error');
                 confirmPasswordInput.classList.add('input-error');
-                return; // Stop the submission
+                return;
             }
 
             // --- NEW: Privacy Consent Validation ---
@@ -145,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 registerMessage.textContent = 'You must agree to the privacy policy to continue.';
                 registerMessage.className = 'text-sm text-error';
                 privacyConsentCheckbox.focus();
-                return; // Stop the submission
+                return;
             }
 
             const formData = new FormData(registerForm);
