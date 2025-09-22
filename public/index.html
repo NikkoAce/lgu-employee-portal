@@ -35,7 +35,8 @@
             height: 100%;
             overflow: hidden;
             transition: transform 0.6s ease-in-out;
-            z-index: 3;
+            z-index: 100; /* High z-index to be on top */
+            pointer-events: none; /* Make the container transparent to clicks */
         }
 
         .overlay {
@@ -66,6 +67,7 @@
             width: 50%;
             transform: translateX(0);
             transition: transform 0.6s ease-in-out;
+            pointer-events: auto; /* Make the panels themselves clickable again */
         }
 
         .overlay-left {
@@ -179,14 +181,14 @@
                 <div class="overlay-panel overlay-left">
                     <h1 class="text-3xl font-bold">Welcome Back!</h1>
                     <p class="text-sm font-light leading-snug mt-4 mb-6">To keep connected with us please login with your personal info.</p>
-                    <!-- The Sign In button is temporarily moved for testing -->
+                    <button class="btn btn-ghost" id="signIn">Sign In</button>
                 </div>
                 <!-- Right Overlay Panel (for Sign Up) -->
                 <div class="overlay-panel overlay-right">
                     <img src="LGU-DAET LOGO.png" alt="LGU Logo" class="h-20 w-20 rounded-full mb-4">
                     <h1 class="text-3xl font-bold">Hello, Employee!</h1>
                     <p class="text-sm font-light leading-snug mt-4 mb-6">Enter your personal details and start your journey with us</p>
-                    <button class="btn btn-ghost" id="signUp">Sign Up</button> <button class="btn btn-ghost" id="signIn">Sign In</button>
+                    <button class="btn btn-ghost" id="signUp">Sign Up</button>
                 </div>
             </div>
         </div>
