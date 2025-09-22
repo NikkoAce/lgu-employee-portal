@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorModalTitle = document.getElementById('error-modal-title');
     const errorModalCloseBtn = document.getElementById('error-modal-close-btn');
     const successModal = document.getElementById('success-modal');
+    const successModalCloseBtn = document.getElementById('success-modal-close-btn');
 
     function showErrorModal(message, title = 'Login Failed') {
         if (errorModal && errorModalMessage) {
@@ -41,16 +42,35 @@ document.addEventListener('DOMContentLoaded', () => {
         errorModalCloseBtn.addEventListener('click', hideErrorModal);
     }
 
+    if (successModalCloseBtn) {
+        successModalCloseBtn.addEventListener('click', () => container.classList.remove('right-panel-active'));
+    }
+
     // Helper to show the success modal and hide the form
     function showSuccessModal() {
         if (successModal) {
             // Hide the main form container
             const formContainer = document.querySelector('.w-full.max-w-md');
-            if (formContainer) formContainer.style.display = 'none';
+            // In the new layout, we don't hide the container, the user will click to switch back
             
             successModal.classList.remove('hidden');
             successModal.classList.add('flex');
         }
+    }
+
+    // --- NEW: PANEL TOGGLING LOGIC ---
+    const container = document.getElementById('container');
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+
+    if (container && signUpButton && signInButton) {
+        signUpButton.addEventListener('click', () => {
+            container.classList.add('right-panel-active');
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove('right-panel-active');
+        });
     }
 
     // --- HELPER: PASSWORD TOGGLE VISIBILITY ---
@@ -107,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LOGIN FORM LOGIC ---
     if (loginForm) {
-        // The text-based login message is no longer needed, it's replaced by the modal.
+        const submitButton = loginForm.querySelector('button[type="submit"]');
 
         loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -116,9 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const spinner = document.getElementById('login-spinner');
 
             // Set loading state
-            submitButton.disabled = true;
-            buttonText.classList.add('hidden');
-            spinner.classList.remove('hidden');
 
             const formData = new FormData(loginForm);
             const loginData = Object.fromEntries(formData.entries());
@@ -139,9 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 showErrorModal(error.message, 'Login Failed');
             } finally {
-                spinner.classList.add('hidden');
-                buttonText.classList.remove('hidden');
-                submitButton.disabled = false;
             }
         });
     }
@@ -152,7 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const passwordInput = document.getElementById('register-password');
         const confirmPasswordInput = document.getElementById('register-confirm-password');
         const privacyConsentCheckbox = document.getElementById('privacy-consent');
-        
 
         const clearPasswordError = () => {
             if (passwordInput.classList.contains('border-red-500')) {
@@ -167,10 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const submitButton = registerForm.querySelector('button[type="submit"]');
-            const buttonText = document.getElementById('register-button-text');
-            const spinner = document.getElementById('register-spinner');
-
             registerMessage.textContent = ''; // Clear previous inline messages
 
             if (passwordInput.value !== confirmPasswordInput.value) {
@@ -190,11 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Set loading state
-            submitButton.disabled = true;
-            buttonText.classList.add('hidden');
-            spinner.classList.remove('hidden');
-            
-
             const formData = new FormData(registerForm);
             const registerData = Object.fromEntries(formData.entries());
             // We don't need to send the confirmation password to the backend
@@ -219,10 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 // On API error, use the consistent error modal
                 showErrorModal(error.message, 'Registration Failed');
-            } finally {
-                spinner.classList.add('hidden');
-                buttonText.classList.remove('hidden');
-                submitButton.disabled = false;
             }
         });
     }
@@ -252,6 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // If we are on the registration page, populate the offices dropdown
     if (registerForm) {
-        populateOffices();
+        populateOfficesDropdown();
     }
 });

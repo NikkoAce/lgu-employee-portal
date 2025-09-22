@@ -5,67 +5,194 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGU Daet Employee Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the two-panel layout and animations */
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .sign-in-container {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+
+        .sign-up-container {
+            left: 0;
+            width: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s ease-in-out;
+            z-index: 100;
+        }
+
+        .overlay {
+            background: #0ea5e9; /* sky-500 */
+            background: linear-gradient(to right, #0284c7, #0ea5e9); /* sky-600 to sky-500 */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 0 0;
+            color: #ffffff;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .overlay-panel {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            text-align: center;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .overlay-left {
+            transform: translateX(-20%);
+        }
+
+        .overlay-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        /* Animation for moving panels */
+        .container.right-panel-active .sign-in-container {
+            transform: translateX(100%);
+        }
+
+        .container.right-panel-active .overlay-container {
+            transform: translateX(-100%);
+        }
+
+        .container.right-panel-active .overlay {
+            transform: translateX(50%);
+        }
+
+        .container.right-panel-active .overlay-left {
+            transform: translateX(0);
+        }
+
+        .container.right-panel-active .overlay-right {
+            transform: translateX(20%);
+        }
+
+        .container.right-panel-active .sign-up-container {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: show 0.6s;
+        }
+
+        @keyframes show {
+            0%, 49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
+            50%, 100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
+
+        .ghost-button {
+            background-color: transparent;
+            border-color: #ffffff;
+        }
+    </style>
     <script src="js/auth.js" defer></script>
 </head>
-<body class="bg-slate-100 flex items-center justify-center h-screen">
+<body class="bg-slate-100 flex justify-center items-center flex-col h-screen font-sans">
 
-    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <div class="text-center">
-            <img src="LGU-DAET LOGO.png" alt="LGU Logo" class="mx-auto h-20 w-20 rounded-full">
-            <h2 class="mt-4 text-2xl font-bold text-gray-800">LGU Employee Portal</h2>
-            <p class="text-gray-600">Municipality of Daet</p>
-        </div>
+    <div class="bg-white rounded-2xl shadow-2xl relative overflow-hidden w-full max-w-4xl min-h-[580px]" id="container">
         
-        <!-- Login Form -->
-        <form id="login-form" class="mt-6 space-y-6">
-            <!-- Login form fields remain the same -->
-            <div>
-                <label for="login-employmentType" class="text-sm font-medium text-gray-700">Employment Type</label>
-                <select id="login-employmentType" name="employmentType" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm">
-                    <option value="Permanent">Permanent</option>
-                    <option value="Job Order">Job Order</option>
-                </select>
-            </div>
-            <div>
-                <label for="login-employeeId" class="text-sm font-medium text-gray-700">Employee ID</label>
-                <input id="login-employeeId" name="employeeId" type="text" required class="w-full px-3 py-2 mt-1 border rounded-md">
-            </div>
-            <div>
-                <label for="login-password" class="text-sm font-medium text-gray-700">Password</label>
-                <div class="relative mt-1">
-                    <input id="login-password" name="password" type="password" required class="w-full px-3 py-2 border rounded-md pr-10">
-                    <button type="button" id="login-toggle-password" class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700 focus:outline-none">
-                        <!-- Eye icon -->
-                        <svg id="login-eye-icon" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639l4.443-5.553a1.012 1.012 0 0 1 1.59 0l4.443 5.553a1.012 1.012 0 0 1 0 .639l-4.443 5.553a1.012 1.012 0 0 1-1.59 0l-4.443-5.553Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>
-                        <!-- Eye-slash icon (hidden by default) -->
-                        <svg id="login-eye-slash-icon" class="h-5 w-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.243 4.243L6.228 6.228" />
-                        </svg>
-                    </button>
+        <!-- Sign Up Container -->
+        <div class="form-container sign-up-container">
+            <form id="register-form" class="bg-white flex items-center justify-center flex-col px-12 h-full text-center">
+                <h1 class="text-2xl font-bold mb-4">Create Account</h1>
+                <div class="w-full space-y-2">
+                    <select id="register-employmentType" name="employmentType" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                        <option value="Permanent">Permanent</option>
+                        <option value="Job Order">Job Order</option>
+                    </select>
+                    <input id="register-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                    <input id="register-name" name="name" type="text" placeholder="Full Name" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                    <input id="register-email" name="email" type="email" placeholder="Email" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                    <select id="register-office" name="office" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                        <option value="">Loading Offices...</option>
+                    </select>
+                    <select id="register-role" name="role" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                        <option value="Employee">Employee</option>
+                        <option value="Department Head">Department Head</option>
+                    </select>
+                    <input id="register-password" name="password" type="password" placeholder="Password" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                    <input id="register-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Password" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                </div>
+                <p id="register-message" class="text-sm h-4 mt-2"></p>
+                <button type="submit" class="rounded-full border border-sky-500 bg-sky-500 text-white text-sm font-bold px-12 py-3 uppercase tracking-wider transform transition-transform duration-75 ease-in active:scale-95 mt-4">
+                    Sign Up
+                </button>
+            </form>
+        </div>
+
+        <!-- Sign In Container -->
+        <div class="form-container sign-in-container">
+            <form id="login-form" class="bg-white flex items-center justify-center flex-col px-12 h-full text-center">
+                <h1 class="text-2xl font-bold mb-4">Sign In</h1>
+                <div class="w-full space-y-3">
+                    <select id="login-employmentType" name="employmentType" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                        <option value="Permanent">Permanent</option>
+                        <option value="Job Order">Job Order</option>
+                    </select>
+                    <input id="login-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                    <input id="login-password" name="password" type="password" placeholder="Password" required class="bg-gray-100 border-none px-4 py-3 text-sm w-full rounded-md">
+                </div>
+                <a href="forgot-password.html" class="text-sm text-gray-500 my-4 hover:underline">Forgot your password?</a>
+                <button type="submit" class="rounded-full border border-sky-500 bg-sky-500 text-white text-sm font-bold px-12 py-3 uppercase tracking-wider transform transition-transform duration-75 ease-in active:scale-95">
+                    Sign In
+                </button>
+            </form>
+        </div>
+
+        <!-- Overlay Container -->
+        <div class="overlay-container">
+            <div class="overlay">
+                <!-- Left Overlay Panel (for Sign In) -->
+                <div class="overlay-panel overlay-left">
+                    <h1 class="text-3xl font-bold">Welcome Back!</h1>
+                    <p class="text-sm font-light leading-snug mt-4 mb-6">To keep connected with us please login with your personal info</p>
+                    <button class="ghost-button rounded-full border border-white text-white text-sm font-bold px-12 py-3 uppercase tracking-wider transform transition-transform duration-75 ease-in active:scale-95" id="signIn">Sign In</button>
+                </div>
+                <!-- Right Overlay Panel (for Sign Up) -->
+                <div class="overlay-panel overlay-right">
+                    <img src="LGU-DAET LOGO.png" alt="LGU Logo" class="h-20 w-20 rounded-full mb-4">
+                    <h1 class="text-3xl font-bold">Hello, Employee!</h1>
+                    <p class="text-sm font-light leading-snug mt-4 mb-6">Enter your personal details and start your journey with us</p>
+                    <button class="ghost-button rounded-full border border-white text-white text-sm font-bold px-12 py-3 uppercase tracking-wider transform transition-transform duration-75 ease-in active:scale-95" id="signUp">Sign Up</button>
                 </div>
             </div>
-            <div class="flex items-center justify-end text-sm">
-                <a href="forgot-password.html" class="font-medium text-sky-600 hover:text-sky-500">
-                    Forgot your password?
-                </a>
-            </div>
-            <div>
-                <button type="submit" class="w-full flex justify-center items-center px-4 py-2 font-medium text-white bg-sky-600 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors duration-200">
-                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" id="login-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span id="login-button-text">Sign In</span>
-                </button>
-            </div>
-        </form>
-         <p class="mt-6 text-sm text-center text-gray-600">
-            Don't have an account? 
-            <a href="register.html" class="font-medium text-sky-600 hover:underline transition-colors duration-200">Sign Up</a>
-        </p>
+        </div>
     </div>
 
     <!-- Error Modal -->
@@ -78,7 +205,7 @@
                 </svg>
             </div>
             <div class="mt-3">
-                <h3 id="error-modal-title" class="text-lg font-medium leading-6 text-gray-900">Login Failed</h3>
+                <h3 id="error-modal-title" class="text-lg font-medium leading-6 text-gray-900">Action Failed</h3>
                 <div class="mt-2">
                     <p id="error-modal-message" class="text-sm text-gray-500">
                         Invalid credentials provided.
@@ -92,5 +219,30 @@
             </div>
         </div>
     </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 transition-opacity">
+        <div class="w-full max-w-sm rounded-lg bg-white p-6 text-center shadow-xl transform transition-all">
+            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+                <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+            </div>
+            <div class="mt-3">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Registration Successful!</h3>
+                <div class="mt-2">
+                    <p class="text-sm text-gray-500">
+                        Your account has been created. Please sign in to continue.
+                    </p>
+                </div>
+            </div>
+            <div class="mt-5 sm:mt-6">
+                <button id="success-modal-close-btn" type="button" class="inline-flex w-full justify-center rounded-md bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 sm:text-sm">
+                    Got it!
+                </button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
