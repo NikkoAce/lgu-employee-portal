@@ -35,8 +35,7 @@
             height: 100%;
             overflow: hidden;
             transition: transform 0.6s ease-in-out;
-            z-index: 100; /* Must be on top to slide over the forms */
-            pointer-events: none; /* Allows clicks to pass through the container */
+            z-index: 3; /* Sits between the two form panels */
         }
 
         .overlay {
@@ -67,7 +66,6 @@
             width: 50%;
             transform: translateX(0);
             transition: transform 0.6s ease-in-out;
-            pointer-events: auto; /* Re-enables clicks for the panels and their children (buttons) */
         }
 
         .overlay-left {
