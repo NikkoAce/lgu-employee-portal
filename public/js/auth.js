@@ -134,24 +134,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- REGISTRATION FORM LOGIC ---
     if (registerForm) {
+        const passwordInput = document.getElementById('register-password');
+        const confirmPasswordInput = document.getElementById('register-confirm-password');
+        const registerMessage = document.getElementById('register-message');
 
         const clearPasswordError = () => {
-            if (passwordInput.classList.contains('border-red-500')) {
+            if (passwordInput && passwordInput.classList.contains('border-red-500')) {
                 passwordInput.classList.remove('border-red-500');
                 confirmPasswordInput.classList.remove('border-red-500');
-                registerMessage.textContent = '';
+                if (registerMessage) registerMessage.textContent = '';
             }
         };
         
-        const passwordInput = document.getElementById('register-password');
         if (passwordInput) passwordInput.addEventListener('input', clearPasswordError);
-        const confirmPasswordInput = document.getElementById('register-confirm-password');
         if (confirmPasswordInput) confirmPasswordInput.addEventListener('input', clearPasswordError);
 
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const registerMessage = document.getElementById('register-message');
-            registerMessage.textContent = ''; // Clear previous inline messages
+            if (registerMessage) registerMessage.textContent = ''; // Clear previous inline messages
 
             if (passwordInput.value !== confirmPasswordInput.value) {
                 registerMessage.textContent = 'Passwords do not match.';
