@@ -150,15 +150,17 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
                     method: 'POST',
+                    credentials: 'include', // IMPORTANT: This tells the browser to send cookies
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(loginData)
                 });
-                const result = await response.json(); // Read the body ONCE
+
                 if (!response.ok) {
+                    const result = await response.json(); // Read the error body
                     throw new Error(result.message || 'Login failed.'); // Use the parsed result for the error
                 }
-                const { token } = result; // Destructure from the result on success
-                localStorage.setItem('portalAuthToken', token);
+                
+                // On success, the cookie is set by the server. No need to handle a token here.
                 window.location.href = 'dashboard.html';
             } catch (error) {
                 showErrorModal(error.message, 'Login Failed');
