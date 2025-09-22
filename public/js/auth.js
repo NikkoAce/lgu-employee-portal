@@ -108,8 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LOGIN FORM LOGIC ---
     if (loginForm) {
-        const submitButton = loginForm.querySelector('button[type="submit"]');
-
         loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             const formData = new FormData(loginForm);
@@ -136,10 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- REGISTRATION FORM LOGIC ---
     if (registerForm) {
-        const registerMessage = document.getElementById('register-message');
-        const passwordInput = document.getElementById('register-password');
-        const confirmPasswordInput = document.getElementById('register-confirm-password');
-        const privacyConsentCheckbox = document.getElementById('privacy-consent');
 
         const clearPasswordError = () => {
             if (passwordInput.classList.contains('border-red-500')) {
@@ -148,12 +142,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 registerMessage.textContent = '';
             }
         };
-
-        passwordInput.addEventListener('input', clearPasswordError);
-        confirmPasswordInput.addEventListener('input', clearPasswordError);
+        
+        const passwordInput = document.getElementById('register-password');
+        if (passwordInput) passwordInput.addEventListener('input', clearPasswordError);
+        const confirmPasswordInput = document.getElementById('register-confirm-password');
+        if (confirmPasswordInput) confirmPasswordInput.addEventListener('input', clearPasswordError);
 
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
+            const registerMessage = document.getElementById('register-message');
             registerMessage.textContent = ''; // Clear previous inline messages
 
             if (passwordInput.value !== confirmPasswordInput.value) {
@@ -165,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // --- NEW: Privacy Consent Validation ---
+            const privacyConsentCheckbox = document.getElementById('privacy-consent');
             if (!privacyConsentCheckbox || !privacyConsentCheckbox.checked) {
                 registerMessage.textContent = 'You must agree to the privacy policy to continue.';
                 registerMessage.className = 'text-sm text-red-600';

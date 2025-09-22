@@ -35,7 +35,7 @@
             height: 100%;
             overflow: hidden;
             transition: transform 0.6s ease-in-out;
-            z-index: 3;
+            z-index: 100;
         }
 
         .overlay {
@@ -196,7 +196,7 @@
     </div>
 
     <!-- Error Modal -->
-    <dialog id="error-modal" class="modal">
+    <dialog id="error-modal" class="modal z-[110]">
         <div class="modal-box text-center">
             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
                 <!-- Heroicon - Exclamation Triangle -->
@@ -215,7 +215,7 @@
     </dialog>
 
     <!-- Success Modal -->
-    <dialog id="success-modal" class="modal">
+    <dialog id="success-modal" class="modal z-[110]">
         <div class="modal-box text-center">
             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                 <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
