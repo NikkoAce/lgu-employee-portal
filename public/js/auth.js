@@ -24,6 +24,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- NEW: BUTTON LOADING STATE HELPERS ---
+    function showButtonLoading(button) {
+        button.disabled = true;
+        // Store original text in a data attribute to retrieve it later
+        button.dataset.originalText = button.innerHTML;
+        button.innerHTML = '<span class="loading loading-spinner"></span>';
+    }
+
+    function resetButton(button) {
+        if (button && button.dataset.originalText) {
+            button.disabled = false;
+            button.innerHTML = button.dataset.originalText;
+        }
+    }
+
     if (successModalCloseBtn) {
         // When the success modal is closed, switch the panel back to the sign-in view.
         successModalCloseBtn.addEventListener('click', () => {
@@ -126,6 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
+            const submitButton = loginForm.querySelector('button[type="submit"]');
+            showButtonLoading(submitButton);
+
             const formData = new FormData(loginForm);
             const loginData = Object.fromEntries(formData.entries());
 
@@ -144,6 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'dashboard.html';
             } catch (error) {
                 showErrorModal(error.message, 'Login Failed');
+            } finally {
+                // This ensures the button is reset if login fails
+                resetButton(submitButton);
             }
         });
     }
@@ -223,6 +244,9 @@ document.addEventListener('DOMContentLoaded', () => {
             delete registerData.confirmPassword;
             delete registerData['privacy-consent'];
 
+            const submitButton = registerForm.querySelector('button[type="submit"]');
+            showButtonLoading(submitButton);
+
             try {
                 const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
                     method: 'POST',
@@ -241,6 +265,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 // On API error, use the consistent error modal
                 showErrorModal(error.message, 'Registration Failed');
+            } finally {
+                // This ensures the button is reset on success or failure
+                resetButton(submitButton);
             }
         });
     }
