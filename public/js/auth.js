@@ -12,45 +12,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorModal = document.getElementById('error-modal');
     const errorModalMessage = document.getElementById('error-modal-message');
     const errorModalTitle = document.getElementById('error-modal-title');
-    const errorModalCloseBtn = document.getElementById('error-modal-close-btn');
     const successModal = document.getElementById('success-modal');
     const successModalCloseBtn = document.getElementById('success-modal-close-btn');
 
     function showErrorModal(message, title = 'Login Failed') {
-        if (errorModal && errorModalMessage) {
-            // Set the title of the modal for context (e.g., "Login Failed" or "Registration Failed")
-            if(errorModalTitle) {
-                errorModalTitle.textContent = title;
-            } else {
-                // Fallback for the login page which doesn't have a dynamic title
-                document.querySelector('#error-modal h3').textContent = title;
-            }
+        if (errorModal && errorModalMessage && errorModalTitle) {
+            errorModalTitle.textContent = title;
             errorModalMessage.textContent = message;
-            errorModal.classList.remove('hidden');
-            errorModal.classList.add('flex');
+            errorModal.showModal();
         }
-    }
-
-    function hideErrorModal() {
-        if (errorModal) {
-            errorModal.classList.add('hidden');
-            errorModal.classList.remove('flex');
-        }
-    }
-
-    if (errorModalCloseBtn) {
-        errorModalCloseBtn.addEventListener('click', hideErrorModal);
     }
 
     if (successModalCloseBtn) {
-        successModalCloseBtn.addEventListener('click', () => container.classList.remove('right-panel-active'));
+        // This button is only on the index.html success modal.
+        // When clicked, the modal closes via the form[method="dialog"] attribute.
+        // This listener just handles the extra step of switching the panel back.
+        successModalCloseBtn.addEventListener('click', () => {
+            if (container) container.classList.remove('right-panel-active');
+        });
     }
 
-    // Helper to show the success modal and hide the form
+    // Helper to show the success modal
     function showSuccessModal() {
         if (successModal) {
-            successModal.classList.remove('hidden');
-            successModal.classList.add('flex');
+            successModal.showModal();
         }
     }
 
