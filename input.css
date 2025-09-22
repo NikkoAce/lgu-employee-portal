@@ -30,13 +30,15 @@
     width: 50%;
     height: 100%;
     overflow: hidden;
-    /* MODIFIED: Added border-radius to the transition for a smooth shape change */
-    transition: transform 0.6s ease-in-out, border-radius 0.6s ease-in-out;
+    /* MODIFIED: Added border-radius and box-shadow to the transition for a smooth shape change */
+    transition: transform 0.6s ease-in-out, border-radius 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
     z-index: 3; /* Sits between the two form panels */
     /* NEW: Rounded corners on the left side by default, facing the sign-in form. Matches the parent's rounded-2xl. */
     border-radius: 100px 0 0 100px;
     /* NEW: Force hardware acceleration to fix potential rendering bugs with overflow:hidden and border-radius */
     transform: translateZ(0);
+    /* NEW: Add a subtle shadow to the inner edge for depth */
+    box-shadow: -10px 0 15px -5px rgba(0, 0, 0, 0.15);
 }
 
 .overlay {
@@ -87,6 +89,8 @@
     transform: translateX(-100%) translateZ(0);
     /* NEW: Switch rounded corners to the right side when active, facing the sign-up form */
     border-radius: 0 100px 100px 0;
+    /* NEW: Switch shadow to the other side */
+    box-shadow: 10px 0 15px -5px rgba(0, 0, 0, 0.15);
 }
 
 #container.right-panel-active .overlay {
