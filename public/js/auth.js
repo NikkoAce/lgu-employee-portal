@@ -117,9 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const registerMessage = document.getElementById('register-message');
 
         const clearPasswordError = () => {
-            if (passwordInput && passwordInput.classList.contains('border-red-500')) {
-                passwordInput.classList.remove('border-red-500');
-                confirmPasswordInput.classList.remove('border-red-500');
+            if (passwordInput && passwordInput.classList.contains('input-error')) {
+                passwordInput.classList.remove('input-error');
+                confirmPasswordInput.classList.remove('input-error');
                 if (registerMessage) registerMessage.textContent = '';
             }
         };
@@ -133,9 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (passwordInput.value !== confirmPasswordInput.value) {
                 registerMessage.textContent = 'Passwords do not match.';
-                registerMessage.className = 'text-sm text-red-600';
-                passwordInput.classList.add('border-red-500');
-                confirmPasswordInput.classList.add('border-red-500');
+                registerMessage.className = 'text-sm text-error';
+                passwordInput.classList.add('input-error');
+                confirmPasswordInput.classList.add('input-error');
                 return; // Stop the submission
             }
 
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const privacyConsentCheckbox = document.getElementById('privacy-consent');
             if (!privacyConsentCheckbox || !privacyConsentCheckbox.checked) {
                 registerMessage.textContent = 'You must agree to the privacy policy to continue.';
-                registerMessage.className = 'text-sm text-red-600';
+                registerMessage.className = 'text-sm text-error';
                 privacyConsentCheckbox.focus();
                 return; // Stop the submission
             }
