@@ -5,201 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGU Daet Employee Portal</title>
     <link href="css/style.css" rel="stylesheet">
-    <style>
-        /* Custom styles for the two-panel layout and animations */
-        .form-container {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            transition: all 0.6s ease-in-out;
-        }
-
-        .sign-in-container {
-            left: 0;
-            width: 50%;
-            z-index: 2;
-        }
-
-        .sign-up-container {
-            left: 0;
-            width: 50%;
-            opacity: 0;
-            z-index: 1;
-        }
-
-        .overlay-container {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 50%;
-            height: 100%;
-            overflow: hidden;
-            transition: transform 0.6s ease-in-out;
-            z-index: 1;
-        }
-
-        .overlay {
-            background: #0ea5e9; /* sky-500 */
-            background: linear-gradient(to right, #0284c7, #0ea5e9); /* sky-600 to sky-500 */
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: 0 0;
-            color: #ffffff;
-            position: relative;
-            left: -100%;
-            height: 100%;
-            width: 200%;
-            transform: translateX(0);
-            transition: transform 0.6s ease-in-out;
-        }
-
-        .overlay-panel {
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 0 40px;
-            text-align: center;
-            top: 0;
-            height: 100%;
-            width: 50%;
-            transform: translateX(0);
-            transition: transform 0.6s ease-in-out;
-        }
-
-        .overlay-left {
-            transform: translateX(-20%);
-        }
-
-        .overlay-right {
-            right: 0;
-            transform: translateX(0);
-        }
-
-        /* Animation for moving panels */
-        .container.right-panel-active .sign-in-container {
-            transform: translateX(100%);
-        }
-
-        .container.right-panel-active .overlay-container {
-            transform: translateX(-100%);
-        }
-
-        .container.right-panel-active .overlay {
-            transform: translateX(50%);
-        }
-
-        .container.right-panel-active .overlay-left {
-            transform: translateX(0);
-        }
-
-        .container.right-panel-active .overlay-right {
-            transform: translateX(20%);
-        }
-
-        .container.right-panel-active .sign-up-container {
-            transform: translateX(100%);
-            opacity: 1;
-            z-index: 5;
-            animation: show 0.6s;
-        }
-
-        @keyframes show {
-            0%, 49.99% {
-                opacity: 0;
-                z-index: 1;
-            }
-            50%, 100% {
-                opacity: 1;
-                z-index: 5;
-            }
-        }
-
-        .ghost-button {
-            background-color: transparent;
-            border-color: #ffffff;
-        }
-    </style>
     <script src="js/auth.js" defer></script>
 </head>
-<body class="bg-slate-100 flex justify-center items-center flex-col h-screen font-sans">
+<body class="bg-slate-100">
 
-    <div class="bg-white rounded-2xl shadow-2xl relative overflow-hidden w-full max-w-4xl min-h-[580px]" id="container">
+    <div class="drawer drawer-end">
+        <input id="register-drawer" type="checkbox" class="drawer-toggle" />
         
-        <!-- Sign Up Container -->
-        <div class="form-container sign-up-container">
-            <form id="register-form" class="bg-white flex items-center justify-center flex-col px-12 h-full text-center">
-                <h1 class="text-2xl font-bold mb-4">Create Account</h1>
-                <div class="w-full space-y-2">
-                    <select id="register-employmentType" name="employmentType" required class="select select-bordered w-full text-sm">
+        <!-- Page Content (Sign In Form) -->
+        <div class="drawer-content flex flex-col items-center justify-center min-h-screen">
+            <div class="card w-full max-w-md bg-base-100 shadow-xl">
+                <div class="card-body items-center text-center">
+                    <div class="avatar">
+                        <div class="w-24 rounded-full">
+                            <img src="LGU-DAET LOGO.png" alt="LGU Logo" />
+                        </div>
+                    </div>
+                    <h2 class="card-title">LGU Employee Portal</h2>
+                    <p>Sign in to your account</p>
+                    
+                    <form id="login-form" class="w-full space-y-3 mt-4">
+                        <select id="login-employmentType" name="employmentType" required class="select select-bordered w-full">
+                            <option value="Permanent">Permanent</option>
+                            <option value="Job Order">Job Order</option>
+                        </select>
+                        <input id="login-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full">
+                        <input id="login-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full">
+                        <div class="text-right w-full">
+                            <a href="forgot-password.html" class="link link-hover text-sm">Forgot password?</a>
+                        </div>
+                        <div class="card-actions justify-end w-full">
+                            <button type="submit" class="btn btn-primary w-full">Sign In</button>
+                        </div>
+                    </form>
+                    <div class="divider">OR</div>
+                    <p class="text-sm">
+                        Don't have an account? 
+                        <label for="register-drawer" class="link link-primary drawer-button cursor-pointer">Sign Up</label>
+                    </p>
+                </div>
+            </div>
+        </div> 
+        
+        <!-- Drawer Content (Registration Form) -->
+        <div class="drawer-side z-[105]">
+            <label for="register-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+            <div class="p-8 w-full max-w-md bg-base-100 text-base-content min-h-full">
+                <h2 class="text-2xl font-bold mb-4">Create an Account</h2>
+                <form id="register-form" class="w-full space-y-3">
+                    <select id="register-employmentType" name="employmentType" required class="select select-bordered w-full">
                         <option value="Permanent">Permanent</option>
                         <option value="Job Order">Job Order</option>
                     </select>
-                    <input id="register-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full text-sm">
-                    <input id="register-name" name="name" type="text" placeholder="Full Name" required class="input input-bordered w-full text-sm">
-                    <input id="register-email" name="email" type="email" placeholder="Email" required class="input input-bordered w-full text-sm">
-                    <select id="register-office" name="office" required class="select select-bordered w-full text-sm">
+                    <input id="register-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full">
+                    <input id="register-name" name="name" type="text" placeholder="Full Name" required class="input input-bordered w-full">
+                    <input id="register-email" name="email" type="email" placeholder="Email" required class="input input-bordered w-full">
+                    <select id="register-office" name="office" required class="select select-bordered w-full">
                         <option value="">Loading Offices...</option>
                     </select>
-                    <select id="register-role" name="role" required class="select select-bordered w-full text-sm">
+                    <select id="register-role" name="role" required class="select select-bordered w-full">
                         <option value="Employee">Employee</option>
                         <option value="Department Head">Department Head</option>
                     </select>
-                    <input id="register-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm">
-                    <input id="register-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Password" required class="input input-bordered w-full text-sm">
-                </div>
+                    <input id="register-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full">
+                    <input id="register-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Password" required class="input input-bordered w-full">
+                    
+                    <div class="form-control text-left">
+                        <label class="cursor-pointer label justify-start">
+                            <input id="privacy-consent" name="privacy-consent" type="checkbox" class="checkbox checkbox-primary" />
+                            <span class="label-text ml-2 text-xs">I agree to the <a href="#" class="link link-primary">Privacy Policy</a>.</span>
+                        </label>
+                    </div>
 
-                <!-- Data Privacy Consent -->
-                <div class="form-control text-left pt-2">
-                    <label class="cursor-pointer label justify-start">
-                        <input id="privacy-consent" name="privacy-consent" type="checkbox" class="checkbox checkbox-primary" />
-                        <span class="label-text ml-2 text-xs">I agree to the <a href="#" class="link link-primary">Privacy Policy</a>.</span>
-                    </label>
-                </div>
-
-                <p id="register-message" class="text-sm h-4 mt-2"></p>
-                <button type="submit" class="btn btn-primary mt-2">
-                    Sign Up
-                </button>
-            </form>
-        </div>
-
-        <!-- Sign In Container -->
-        <div class="form-container sign-in-container">
-            <form id="login-form" class="bg-white flex items-center justify-center flex-col px-12 h-full text-center">
-                <h1 class="text-2xl font-bold mb-4">Sign In</h1>
-                <div class="w-full space-y-3">
-                    <select id="login-employmentType" name="employmentType" required class="select select-bordered w-full text-sm">
-                        <option value="Permanent">Permanent</option>
-                        <option value="Job Order">Job Order</option>
-                    </select>
-                    <input id="login-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full text-sm">
-                    <input id="login-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm">
-                </div>
-                <a href="forgot-password.html" class="link link-hover my-4 text-sm">Forgot your password?</a>
-                <button type="submit" class="btn btn-primary">
-                    Sign In
-                </button>
-            </form>
-        </div>
-
-        <!-- Overlay Container -->
-        <div class="overlay-container">
-            <div class="overlay">
-                <!-- Left Overlay Panel (for Sign In) -->
-                <div class="overlay-panel overlay-left">
-                    <h1 class="text-3xl font-bold">Welcome Back!</h1>
-                    <p class="text-sm font-light leading-snug mt-4 mb-6">To keep connected with us please login with your personal info</p>
-                    <button class="btn btn-ghost" id="signIn">Sign In</button>
-                </div>
-                <!-- Right Overlay Panel (for Sign Up) -->
-                <div class="overlay-panel overlay-right">
-                    <img src="LGU-DAET LOGO.png" alt="LGU Logo" class="h-20 w-20 rounded-full mb-4">
-                    <h1 class="text-3xl font-bold">Hello, Employee!</h1>
-                    <p class="text-sm font-light leading-snug mt-4 mb-6">Enter your personal details and start your journey with us</p>
-                    <button class="btn btn-ghost" id="signUp">Sign Up</button>
-                </div>
+                    <p id="register-message" class="text-sm h-4 text-error"></p>
+                    <button type="submit" class="btn btn-primary w-full">Sign Up</button>
+                </form>
+                <div class="divider"></div>
+                <p class="text-sm text-center">
+                    Already have an account? 
+                    <label for="register-drawer" class="link link-primary drawer-button cursor-pointer">Sign In</label>
+                </p>
             </div>
         </div>
     </div>
@@ -214,7 +99,7 @@
                 </svg>
             </div>
             <h3 id="error-modal-title" class="font-bold text-lg mt-3">Action Failed</h3>
-            <p id="error-modal-message" class="py-4 text-sm">Invalid credentials provided.</p>
+            <p id="error-modal-message" class="py-4 text-sm"></p>
             <div class="modal-action justify-center">
                 <form method="dialog">
                     <button class="btn btn-primary">Close</button>
@@ -232,7 +117,7 @@
                 </svg>
             </div>
             <h3 class="font-bold text-lg mt-3">Registration Successful!</h3>
-            <p class="py-4 text-sm">Your account has been created. Please sign in to continue.</p>
+            <p class="py-4 text-sm">Your account has been created. Please close this and sign in.</p>
             <div class="modal-action justify-center">
                 <form method="dialog">
                     <button id="success-modal-close-btn" class="btn btn-primary">Got it!</button>

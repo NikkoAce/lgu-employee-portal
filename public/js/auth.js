@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorModalTitle = document.getElementById('error-modal-title');
     const successModal = document.getElementById('success-modal');
     const successModalCloseBtn = document.getElementById('success-modal-close-btn');
-    const container = document.getElementById('container');
 
     function showErrorModal(message, title = 'Login Failed') {
         if (errorModal && errorModalMessage && errorModalTitle) {
@@ -25,12 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (successModalCloseBtn) {
-        // This button is only on the index.html success modal.
-        // When clicked, the modal closes via the form[method="dialog"] attribute.
-        // This listener just handles the extra step of switching the panel back.
-        successModalCloseBtn.addEventListener('click', () => {
-            if (container) container.classList.remove('right-panel-active');
-        });
+        // The drawer can be closed by the user, so we just need to handle the modal itself.
+        // The form[method="dialog"] attribute handles the closing automatically.
     }
 
     // Helper to show the success modal
@@ -38,20 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (successModal) {
             successModal.showModal();
         }
-    }
-
-    // --- NEW: PANEL TOGGLING LOGIC ---
-    const signUpButton = document.getElementById('signUp');
-    const signInButton = document.getElementById('signIn');
-
-    if (container && signUpButton && signInButton) {
-        signUpButton.addEventListener('click', () => {
-            container.classList.add('right-panel-active');
-        });
-
-        signInButton.addEventListener('click', () => {
-            container.classList.remove('right-panel-active');
-        });
     }
 
     // --- NEW: FUNCTION TO POPULATE OFFICE DROPDOWN ---
