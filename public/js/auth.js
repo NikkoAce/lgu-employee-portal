@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('auth.js: Script loaded and DOM is ready.');
     // --- ELEMENT REFERENCES ---
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
@@ -42,6 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
 
+    console.log('auth.js: Attempting to attach panel toggle listeners...');
+
     if (container && signUpButton) {
         signUpButton.addEventListener('click', () => {
             container.classList.add('right-panel-active');
@@ -49,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     if (container && signInButton) {
+        console.log('auth.js: Sign In and Sign Up buttons found. Listeners attached.');
         signInButton.addEventListener('click', () => {
             container.classList.remove('right-panel-active');
         });
