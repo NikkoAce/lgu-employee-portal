@@ -35,7 +35,7 @@
             height: 100%;
             overflow: hidden;
             transition: transform 0.6s ease-in-out;
-            z-index: 100;
+            z-index: 1;
         }
 
         .overlay {
@@ -149,8 +149,17 @@
                     <input id="register-password" name="password" type="password" placeholder="Password" required class="input input-bordered w-full text-sm">
                     <input id="register-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Password" required class="input input-bordered w-full text-sm">
                 </div>
+
+                <!-- Data Privacy Consent -->
+                <div class="form-control text-left pt-2">
+                    <label class="cursor-pointer label justify-start">
+                        <input id="privacy-consent" name="privacy-consent" type="checkbox" class="checkbox checkbox-primary" />
+                        <span class="label-text ml-2 text-xs">I agree to the <a href="#" class="link link-primary">Privacy Policy</a>.</span>
+                    </label>
+                </div>
+
                 <p id="register-message" class="text-sm h-4 mt-2"></p>
-                <button type="submit" class="btn btn-primary mt-4">
+                <button type="submit" class="btn btn-primary mt-2">
                     Sign Up
                 </button>
             </form>
