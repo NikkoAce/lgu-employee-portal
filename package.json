@@ -6,6 +6,7 @@
   "scripts": {
     "init:tailwind": "tailwindcss init",
     "build:css": "tailwindcss -i ./src/input.css -o ./public/css/style.css",
+    "build": "npm run build:css",
     "watch": "tailwindcss -i ./src/input.css -o ./public/css/style.css --watch",
     "serve": "npx http-server ./public -p 5501",
     "dev": "concurrently \"npm:watch\" \"npm:serve\""
