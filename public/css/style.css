@@ -2758,27 +2758,27 @@ html {
 
 /* Animation for moving panels */
 
-.container.right-panel-active .sign-in-container {
+#container.right-panel-active .sign-in-container {
   transform: translateX(100%);
 }
 
-.container.right-panel-active .overlay-container {
+#container.right-panel-active .overlay-container {
   transform: translateX(-100%);
 }
 
-.container.right-panel-active .overlay {
+#container.right-panel-active .overlay {
   transform: translateX(50%);
 }
 
-.container.right-panel-active .overlay-left {
+#container.right-panel-active .overlay-left {
   transform: translateX(0);
 }
 
-.container.right-panel-active .overlay-right {
+#container.right-panel-active .overlay-right {
   transform: translateX(20%);
 }
 
-.container.right-panel-active .sign-up-container {
+#container.right-panel-active .sign-up-container {
   transform: translateX(100%);
   opacity: 1;
   z-index: 5;
