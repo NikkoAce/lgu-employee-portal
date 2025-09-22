@@ -49,10 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Helper to show the success modal and hide the form
     function showSuccessModal() {
         if (successModal) {
-            // Hide the main form container
-            const formContainer = document.querySelector('.w-full.max-w-md');
-            // In the new layout, we don't hide the container, the user will click to switch back
-            
             successModal.classList.remove('hidden');
             successModal.classList.add('flex');
         }
@@ -131,12 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const submitButton = document.querySelector('#login-form button[type="submit"]');
-            const buttonText = document.getElementById('login-button-text');
-            const spinner = document.getElementById('login-spinner');
-
-            // Set loading state
-
             const formData = new FormData(loginForm);
             const loginData = Object.fromEntries(formData.entries());
 
@@ -155,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'dashboard.html';
             } catch (error) {
                 showErrorModal(error.message, 'Login Failed');
-            } finally {
             }
         });
     }
@@ -198,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return; // Stop the submission
             }
 
-            // Set loading state
             const formData = new FormData(registerForm);
             const registerData = Object.fromEntries(formData.entries());
             // We don't need to send the confirmation password to the backend

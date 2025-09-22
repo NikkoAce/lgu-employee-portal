@@ -35,7 +35,7 @@
             height: 100%;
             overflow: hidden;
             transition: transform 0.6s ease-in-out;
-            z-index: 100;
+            z-index: 3;
         }
 
         .overlay {
@@ -196,7 +196,7 @@
     </div>
 
     <!-- Error Modal -->
-    <div id="error-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 transition-opacity">
+    <div id="error-modal" class="fixed inset-0 z-[110] hidden items-center justify-center bg-black bg-opacity-50 transition-opacity">
         <div class="w-full max-w-sm rounded-lg bg-white p-6 text-center shadow-xl transform transition-all">
             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
                 <!-- Heroicon - Exclamation Triangle -->
@@ -221,7 +221,7 @@
     </div>
 
     <!-- Success Modal -->
-    <div id="success-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 transition-opacity">
+    <div id="success-modal" class="fixed inset-0 z-[110] hidden items-center justify-center bg-black bg-opacity-50 transition-opacity">
         <div class="w-full max-w-sm rounded-lg bg-white p-6 text-center shadow-xl transform transition-all">
             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                 <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
