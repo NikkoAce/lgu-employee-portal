@@ -5,10 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // The URL of your deployed IT Helpdesk backend API
     const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
-    // NEW: The URL for your GSO backend, which manages shared data like offices.
-    const GSO_API_BASE_URL = 'https://gso-backend-mns8.onrender.com';
-
-    // --- NEW: MODAL HELPER FUNCTIONS ---
+    // Use the new proxy endpoint on our own backend to fetch offices.
+    const OFFICES_API_URL = `${API_BASE_URL}/api/users/offices`;
+    // --- MODAL HELPER FUNCTIONS ---
     const errorModal = document.getElementById('error-modal');
     const errorModalMessage = document.getElementById('error-modal-message');
     const errorModalTitle = document.getElementById('error-modal-title');
@@ -121,8 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!officeContainer) return;
 
         try {
-            // Fetch the list of offices from the GSO backend's new public endpoint
-            const response = await fetch(`${GSO_API_BASE_URL}/api/offices/public`);
+            // Fetch the list of offices from our backend's proxy endpoint
+            const response = await fetch(OFFICES_API_URL);
             if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.statusText}`);
             }
