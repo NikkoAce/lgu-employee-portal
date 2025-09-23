@@ -42,7 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (successModalCloseBtn) {
         // When the success modal is closed, switch the panel back to the sign-in view.
         successModalCloseBtn.addEventListener('click', () => {
-            if (container) container.classList.remove('right-panel-active');
+            if (container) {
+                container.classList.remove('right-panel-active');
+            }
+            // Also reset the registration form to clear the fields for the next user.
+            if (registerForm) {
+                registerForm.reset();
+            }
         });
     }
 
@@ -56,6 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- PANEL TOGGLING LOGIC ---
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
+    const signUpButtonMobile = document.getElementById('signUpMobile');
+    const signInButtonMobile = document.getElementById('signInMobile');
 
     if (container && signUpButton) {
         signUpButton.addEventListener('click', () => {
@@ -65,6 +73,22 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (container && signInButton) {
         signInButton.addEventListener('click', () => {
+            container.classList.remove('right-panel-active');
+        });
+    }
+
+    // --- NEW: Mobile Toggle Logic ---
+    // This makes the "Sign Up" and "Sign In" links work on mobile screens.
+    if (container && signUpButtonMobile) {
+        signUpButtonMobile.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default button behavior
+            container.classList.add('right-panel-active');
+        });
+    }
+
+    if (container && signInButtonMobile) {
+        signInButtonMobile.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default button behavior
             container.classList.remove('right-panel-active');
         });
     }
