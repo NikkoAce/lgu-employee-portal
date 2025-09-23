@@ -3,9 +3,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- CONFIGURATION ---
     const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
-    // NOTE: This assumes the GSO system exposes an API for offices.
-    // Replace with the actual URL if different.
-    const GSO_OFFICES_API_URL = 'https://lgu-gso-system.onrender.com/api/offices';
+    // Use the new proxy endpoint on our own backend to fetch offices.
+    const OFFICES_API_URL = `${API_BASE_URL}/api/users/offices`;
 
     // --- DOM ELEMENTS ---
     const profileForm = document.getElementById('profile-form');
@@ -24,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const populateOfficeDropdown = async (currentUserOffice) => {
         try {
             // This logic is similar to the registration page.
-            const response = await fetch(GSO_OFFICES_API_URL);
+            const response = await fetch(OFFICES_API_URL);
             if (!response.ok) throw new Error('Failed to fetch offices');
             const offices = await response.json();
 
