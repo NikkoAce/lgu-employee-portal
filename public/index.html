@@ -128,7 +128,7 @@
                 <div class="form-control text-left pt-2 w-full">
                     <label class="cursor-pointer label justify-start">
                         <input id="privacy-consent" name="privacy-consent" type="checkbox" class="checkbox checkbox-primary checkbox-sm" />
-                        <span class="label-text ml-2 text-xs">I agree to the <a href="#" class="link link-primary">Privacy Policy</a>.</span>
+                        <span class="label-text ml-2 text-xs">I agree to the <a href="#" id="privacy-policy-link" class="link link-primary">Privacy Policy</a>.</span>
                     </label>
                 </div>
                 <p id="register-message" class="text-sm h-4 mt-2"></p>
@@ -253,6 +253,39 @@
         </div>
     </dialog>
 
+    <!-- Privacy Policy Modal -->
+    <dialog id="privacy-policy-modal" class="modal z-[110]">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg">LGU Employee Portal Privacy Policy</h3>
+            <div class="py-4 text-sm text-left space-y-4">
+                <p>Your privacy is important to us. This privacy statement explains the personal data LGU Daet processes, how LGU Daet processes it, and for what purposes.</p>
+                <div>
+                    <h4 class="font-semibold">1. Information We Collect</h4>
+                    <p>We collect data you provide directly when you register for an account, including your full name, employee ID, email address, office, employment type, and role. For users authenticating via Google, we collect your name and email address as provided by Google.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">2. How We Use Your Information</h4>
+                    <p>We use the information we collect to operate, maintain, and provide you with the features and functionality of the LGU Employee Portal. This includes authenticating you for access to connected systems like the IT Helpdesk and GSO Asset Management System, and for password reset communications.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">3. Data Security and Sharing</h4>
+                    <p>We implement a variety of security measures to maintain the safety of your personal information. Your data is contained within secured networks and is only accessible by a limited number of persons who have special access rights and are required to keep the information confidential. Your information is used for internal LGU purposes only and will not be shared with external third parties, except as required by law.</p>
+                </div>
+            </div>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-primary">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
 
 </body>
+<script>
+    document.getElementById('privacy-policy-link')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('privacy-policy-modal')?.showModal();
+    });
+</script>
 </html>
