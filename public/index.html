@@ -6,10 +6,39 @@
     <title>LGU Daet Employee Portal</title>
     <link href="css/style.css" rel="stylesheet">
     <script src="js/auth.js" defer></script>
+    <style>
+        /* Mobile responsiveness overrides */
+        @media (max-width: 767px) {
+            .overlay-container {
+                display: none; /* Hide the sliding overlay on mobile */
+            }
+            .form-container {
+                position: relative !important; /* Override absolute positioning from style.css */
+                width: 100% !important; /* Take full width */
+                height: auto !important;
+                transform: none !important; /* Reset any transforms */
+            }
+            .sign-up-container {
+                display: none; /* Hide sign-up form by default on mobile */
+                opacity: 1 !important; /* Ensure it's visible when shown */
+            }
+            #container {
+                min-height: 0 !important; /* Let content define height */
+                display: flex;
+                flex-direction: column;
+            }
+            #container.right-panel-active .sign-in-container {
+                display: none;
+            }
+            #container.right-panel-active .sign-up-container {
+                display: flex; /* Show the sign-up form */
+            }
+        }
+    </style>
 </head>
-<body class="bg-slate-100 flex justify-center items-center flex-col h-screen font-sans">
+<body class="bg-slate-100 flex justify-center items-center flex-col min-h-screen font-sans p-4 md:p-0">
 
-    <div class="bg-white rounded-2xl shadow-2xl relative overflow-hidden w-full max-w-4xl min-h-[650px]" id="container">
+    <div class="bg-white rounded-2xl shadow-2xl relative overflow-hidden w-full max-w-4xl md:min-h-[650px]" id="container">
         
         <!-- Sign Up Container -->
         <div class="form-container sign-up-container">
@@ -98,6 +127,10 @@
                 </div>
                 <p id="register-message" class="text-sm h-4 mt-2"></p>
                 <button type="submit" class="btn btn-primary mt-2">Sign Up</button>
+                <p class="md:hidden mt-6 text-sm">
+                    Already have an account? 
+                    <button type="button" id="signInMobile" class="font-semibold text-sky-600 hover:underline">Sign In</button>
+                </p>
             </form>
         </div>
 
@@ -140,6 +173,10 @@
                 </div>
                 <a href="forgot-password.html" class="link link-hover my-4 text-sm">Forgot your password?</a>
                 <button type="submit" class="btn btn-primary">Sign In</button>
+                <p class="md:hidden mt-6 text-sm">
+                    Don't have an account? 
+                    <button type="button" id="signUpMobile" class="font-semibold text-sky-600 hover:underline">Sign Up</button>
+                </p>
             </form>
         </div>
 
@@ -149,7 +186,7 @@
                 <!-- Left Overlay Panel (for Sign In) -->
                 <div class="overlay-panel overlay-left">
                     <h1 class="text-3xl font-bold">Welcome Back!</h1>
-                    <p class="text-sm font-light leading-snug mt-4 mb-6">To keep connected with us please login with your personal info.</p>
+                    <p class="text-sm font-light leading-snug mt-4 mb-6">To keep connected with us, please log in with your personal info.</p>
                     <button class="btn btn-ghost" id="signIn">Sign In</button>
                 </div>
                 <!-- Right Overlay Panel (for Sign Up) -->
@@ -157,7 +194,7 @@
                     <img src="LGU-DAET LOGO.png" alt="LGU Logo" class="h-20 w-20 rounded-full mb-4">
                     <h1 class="text-3xl font-bold">Hello, Employee!</h1>
                     <h1 class="text-3xl font-bold">Welcome to LGU Daet Employee Portal</h1>
-                    <p class="text-sm font-light leading-snug mt-4 mb-6">Enter your details and start your journey with us</p>
+                    <p class="text-sm font-light leading-snug mt-4 mb-6">Enter your details and start your journey with us.</p>
                     <button class="btn btn-ghost" id="signUp">Sign Up</button>
                 </div>
             </div>
