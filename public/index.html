@@ -7,6 +7,19 @@
     <link href="css/style.css" rel="stylesheet">
     <script src="js/auth.js" defer></script>
     <style>
+        /* Custom animation for modals */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        dialog[open].modal-animated {
+            animation: fadeIn 0.2s ease-out;
+        }
+        dialog[open].modal-animated .modal-box {
+            animation: scaleIn 0.2s ease-out;
+        }
+
+    </style>
+    <style>
         /* Mobile responsiveness overrides */
         @media (max-width: 767px) {
             .overlay-container {
@@ -217,13 +230,13 @@
     </div>
 
     <!-- Error Modal -->
-    <dialog id="error-modal" class="modal z-[110]">
-        <div class="modal-box">
+    <dialog id="error-modal" class="modal modal-animated z-[110]">
+        <div class="modal-box max-w-sm">
             <form method="dialog">
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
             </form>
             <div class="text-center">
-                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
                     <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z" />
                     </svg>
@@ -238,9 +251,9 @@
     </dialog>
 
     <!-- Success Modal -->
-    <dialog id="success-modal" class="modal z-[110]">
-        <div class="modal-box text-center">
-            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+    <dialog id="success-modal" class="modal modal-animated z-[110]">
+        <div class="modal-box text-center max-w-sm">
+            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
                 <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
@@ -256,8 +269,8 @@
     </dialog>
 
     <!-- Privacy Policy Modal -->
-    <dialog id="privacy-policy-modal" class="modal z-[110]">
-        <div class="modal-box w-11/12 max-w-2xl">
+    <dialog id="privacy-policy-modal" class="modal modal-animated z-[110]">
+        <div class="modal-box w-11/12 max-w-3xl">
             <form method="dialog">
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
             </form>
