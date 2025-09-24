@@ -45,7 +45,8 @@
     }
 
     .overlay-left {
-        transform: translateX(-20%);
+        transform: translateX(-100%); /* Start fully hidden to the left */
+        z-index: 1; /* Sit behind the right panel by default */
     }
 
     .overlay-right {
@@ -71,7 +72,8 @@
     }
 
     #container.right-panel-active .overlay-left {
-        transform: translateX(0);
+        transform: translateX(-20%); /* Slide into view */
+        z-index: 2; /* Come to the front */
     }
 
     #container.right-panel-active .overlay-right {
