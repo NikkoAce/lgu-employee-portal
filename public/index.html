@@ -233,10 +233,11 @@
                 </div>
                 <!-- Right Overlay Panel (for Sign Up) -->
                 <div class="overlay-panel overlay-right">
-                    <img src="LGU-DAET LOGO.png" alt="LGU Logo" class="h-20 w-20 rounded-full mb-4">
-                    <h1 class="text-3xl font-bold">Hello, Employee!</h1>
-                    <h1 class="text-3xl font-bold">Welcome to LGU Daet Employee Portal</h1>
-                    <p class="text-sm font-light leading-snug mt-4 mb-6">Enter your details and start your journey with us.</p>
+                    <img src="LGU-DAET LOGO.png" alt="LGU Daet Seal" class="h-24 w-24 rounded-full mb-6 shadow-lg">
+                    <h1 class="text-3xl font-bold">Maligayang Pagdating sa Bayan ng Daet</h1>
+                    <p class="text-sm font-light leading-snug mt-4 mb-8">Your gateway to LGU employee services. Serving our community starts here.</p>
+                    <!-- NEW: IT Support Link -->
+                    <a id="it-support-link" href="#" class="btn btn-outline btn-accent mb-4">IT Support</a>
                     <button class="btn btn-ghost" id="signUp">Sign Up</button>
                 </div>
             </div>
@@ -316,6 +317,12 @@
     document.getElementById('privacy-policy-link')?.addEventListener('click', (e) => {
         e.preventDefault();
         document.getElementById('privacy-policy-modal')?.showModal();
+    });
+
+    // NEW: Set the IT Support link from the global config
+    document.getElementById('it-support-link')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(window.AppConfig?.IT_HELPDESK_URL || '#', '_blank');
     });
 </script>
 </html>

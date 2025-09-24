@@ -29,13 +29,15 @@
     }
 
     .overlay {
-        /* Use theme colors for the gradient */
-        @apply bg-gradient-to-r from-sky-600 to-sky-500 text-white relative h-full w-[200%] transition-transform duration-500 ease-in-out;
+        /* NEW: Add Monument.png with a semi-transparent blue gradient overlay */
+        background: linear-gradient(to right, rgba(2, 132, 199, 0.85), rgba(14, 165, 233, 0.85)), url('../Monument.png');
+        background-position: center center;
         background-repeat: no-repeat;
         background-size: cover;
-        background-position: 0 0;
-        left: -100%;
-        transform: translateX(0);
+        
+        @apply text-white relative h-full w-[200%] transition-transform duration-500 ease-in-out;
+        left: -100%; /* Position for sliding animation */
+        transform: translateX(0); 
     }
 
     .overlay-panel {
