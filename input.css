@@ -72,12 +72,12 @@
     }
 
     #container.right-panel-active .overlay-left {
-        transform: translateX(-20%); /* Slide into view */
+        transform: translateX(0); /* Slide into view */
         z-index: 2; /* Come to the front */
     }
 
     #container.right-panel-active .overlay-right {
-        transform: translateX(20%);
+        transform: translateX(100%); /* Slide out of view */
     }
 
     #container.right-panel-active .sign-up-container {
