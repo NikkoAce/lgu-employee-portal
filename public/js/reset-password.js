@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
         modalText.textContent = message;
         if (isError) {
             modalIconContainer.innerHTML = errorIcon;
-            modalIconContainer.className = 'mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100';
+            modalIconContainer.className = 'mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100';
         } else {
             modalIconContainer.innerHTML = successIcon;
-            modalIconContainer.className = 'mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100';
+            modalIconContainer.className = 'mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100';
         }
         messageModal.showModal();
 

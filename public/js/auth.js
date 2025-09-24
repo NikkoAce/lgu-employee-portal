@@ -247,26 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
-        // --- NEW: Validation Helper Functions ---
-        const validateEmail = (email) => {
-            // Basic email regex
-            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(String(email).toLowerCase());
-        };
-
-        const validatePasswordStrength = (password) => {
-            // Requires 8+ chars, 1 uppercase, 1 lowercase, 1 number
-            const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
-            return re.test(password);
-        };
-
-        const clearAllErrors = () => {
-            if (registerMessage) registerMessage.textContent = '';
-            if (emailInput) emailInput.classList.remove('input-error');
-            if (passwordInput) passwordInput.classList.remove('input-error');
-            if (confirmPasswordInput) confirmPasswordInput.classList.remove('input-error');
-        };
-        
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             clearAllErrors(); // Clear previous errors on new submission
@@ -346,9 +326,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const employeeIdInput = document.getElementById('register-employeeId');
         const registerMessage = document.getElementById('register-message');
 
+        // --- Centralized Validation Functions ---
         const validateEmail = (email) => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(String(email).toLowerCase());
         const validatePasswordStrength = (password) => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(password);
 
+        // --- Centralized Error Handling ---
         const setValidationError = (input, message) => {
             if (registerMessage) {
                 registerMessage.textContent = message;
@@ -358,7 +340,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const clearValidationError = (input) => {
-            if (registerMessage) registerMessage.textContent = '';
             if (input) input.classList.remove('input-error');
         };
 
@@ -366,15 +347,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (emailInput.value && !validateEmail(emailInput.value)) {
                 setValidationError(emailInput, 'Please enter a valid email address.');
             } else {
+                if (registerMessage.textContent === 'Please enter a valid email address.') registerMessage.textContent = '';
                 clearValidationError(emailInput);
             }
         });
 
         confirmPasswordInput?.addEventListener('input', () => {
+            clearValidationError(confirmPasswordInput);
             if (passwordInput.value !== confirmPasswordInput.value) {
                 setValidationError(confirmPasswordInput, 'Passwords do not match.');
             } else {
-                clearValidationError(confirmPasswordInput);
+                // If the only error was the password match, clear it.
+                if (registerMessage.textContent === 'Passwords do not match.') registerMessage.textContent = '';
             }
         });
 
@@ -410,6 +394,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error checking employee ID:', error);
             }
         });
+
+        // --- Centralized Error Clearing ---
+        const clearAllErrors = () => {
+            if (registerMessage) registerMessage.textContent = '';
+            clearValidationError(emailInput);
+            clearValidationError(passwordInput);
+            clearValidationError(confirmPasswordInput);
+        };
     };
 
     // --- INITIALIZE PASSWORD TOGGLES & DYNAMIC DATA ---
