@@ -2,10 +2,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- CONFIGURATION ---
-    const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
-    // Use the new proxy endpoint on our own backend to fetch offices.
-    const OFFICES_API_URL = `${API_BASE_URL}/api/users/offices`;
-
     // --- DOM ELEMENTS ---
     const profileForm = document.getElementById('profile-form');
     const nameInput = document.getElementById('profile-name');
@@ -23,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const populateOfficeDropdown = async (currentUserOffice) => {
         try {
             // This logic is similar to the registration page.
-            const response = await fetch(OFFICES_API_URL);
+            const response = await fetch(`${AppConfig.API_BASE_URL}/api/users/offices`);
             if (!response.ok) throw new Error('Failed to fetch offices');
             const offices = await response.json();
 
@@ -52,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const initializeProfilePage = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/api/auth/me`, { credentials: 'include' });
+            const response = await fetch(`${AppConfig.API_BASE_URL}/api/auth/me`, { credentials: 'include' });
             if (!response.ok) {
                 window.location.href = 'index.html'; // Redirect if not authenticated
                 return;
@@ -90,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+            const response = await fetch(`${AppConfig.API_BASE_URL}/api/users/me`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -121,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     userMenuButton?.addEventListener('click', (e) => { e.stopPropagation(); userMenu.classList.toggle('hidden'); });
     window.addEventListener('click', () => userMenu?.classList.add('hidden'));
     signoutButton?.addEventListener('click', async () => {
-        await fetch(`${API_BASE_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
+        await fetch(`${AppConfig.API_BASE_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
         window.location.href = 'index.html';
     });
 

@@ -3,10 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
     
-    // The URL of your deployed IT Helpdesk backend API
-    const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
-    // Use the new proxy endpoint on our own backend to fetch offices.
-    const OFFICES_API_URL = `${API_BASE_URL}/api/users/offices`;
     // --- MODAL HELPER FUNCTIONS ---
     const errorModal = document.getElementById('error-modal');
     const errorModalMessage = document.getElementById('error-modal-message');
@@ -121,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Fetch the list of offices from our backend's proxy endpoint
-            const response = await fetch(OFFICES_API_URL);
+            const response = await fetch(`${AppConfig.API_BASE_URL}/api/users/offices`);
             if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.statusText}`);
             }
@@ -171,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const loginData = Object.fromEntries(formData.entries());
 
             try {
-                const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+                const response = await fetch(`${AppConfig.API_BASE_URL}/api/auth/login`, {
                     method: 'POST',
                     credentials: 'include', // IMPORTANT: This tells the browser to send cookies
                     headers: { 'Content-Type': 'application/json' },
@@ -273,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showButtonLoading(submitButton);
 
             try {
-                const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+                const response = await fetch(`${AppConfig.API_BASE_URL}/api/auth/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(registerData)

@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('forgot-password-form');
     const emailInput = document.getElementById('email');
     const submitButton = document.getElementById('submit-button');
-    const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
-
     // --- Modal Elements & Helpers ---
     const messageModal = document.getElementById('message-modal');
     const modalTitle = document.getElementById('message-modal-title');
@@ -55,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.innerHTML = '<span class="loading loading-spinner"></span> Sending...';
 
         try {
-            const response = await fetch(`${API_BASE_URL}/api/auth/forgot-password`, {
+            const response = await fetch(`${AppConfig.API_BASE_URL}/api/auth/forgot-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })

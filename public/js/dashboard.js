@@ -5,17 +5,9 @@
  * and sets up application links. Redirects to login if not authenticated.
  */
 async function initializeDashboard() {
-    // The URL of your deployed IT Helpdesk backend API
-    const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
-    const IT_HELPDESK_URL = 'https://lgu-ithelpdesk.netlify.app/app.html';
-    const BUILDING_PERMIT_URL = 'https://lgu-engr-permit.netlify.app/index.html'; 
-    const INFORMAL_SETTLER_URL = 'https://lgu-urban-poor.netlify.app/dashboard.html';
-    const GSO_PROD_URL = 'https://lgudaet-gso-system.netlify.app/';
-    const GSO_DEV_URL = 'https://dev-gso-system.netlify.app/'; // Your development link
-
     try {
         // Fetch user data from the new /me endpoint. The browser will automatically send the secure cookie.
-        const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+        const response = await fetch(`${AppConfig.API_BASE_URL}/api/auth/me`, {
             method: 'GET',
             credentials: 'include', // This is crucial for sending HttpOnly cookies
         });
@@ -47,9 +39,9 @@ async function initializeDashboard() {
         if (appsContainer) {
             // --- Link existing applications ---
             const existingApps = [
-                { id: 'it-helpdesk-link', url: IT_HELPDESK_URL },
-                { id: 'building-permit-link', url: BUILDING_PERMIT_URL },
-                { id: 'informal-settler-link', url: INFORMAL_SETTLER_URL }
+                { id: 'it-helpdesk-link', url: AppConfig.IT_HELPDESK_URL },
+                { id: 'building-permit-link', url: AppConfig.BUILDING_PERMIT_URL },
+                { id: 'informal-settler-link', url: AppConfig.INFORMAL_SETTLER_URL }
             ];
             existingApps.forEach(app => {
                 const linkElement = document.getElementById(app.id);
@@ -64,7 +56,7 @@ async function initializeDashboard() {
 
             // --- GSO System Link (Production) ---
             // NEW: Point to the backend SSO redirect endpoint instead of the GSO app directly.
-            const gsoProdSsoUrl = `${API_BASE_URL}/api/auth/sso/redirect/gso?env=prod`;
+            const gsoProdSsoUrl = `${AppConfig.API_BASE_URL}/api/auth/sso/redirect/gso?env=prod`;
             const gsoLinkHTML = `
                 <a href="${gsoProdSsoUrl}" class="dynamic-link flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
                     <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg bg-purple-100 text-purple-600">
@@ -82,7 +74,7 @@ async function initializeDashboard() {
 
             // --- GSO System Link (Development) ---
             // NEW: Point to the backend SSO redirect endpoint instead of the GSO app directly.
-            const gsoDevSsoUrl = `${API_BASE_URL}/api/auth/sso/redirect/gso?env=dev`;
+            const gsoDevSsoUrl = `${AppConfig.API_BASE_URL}/api/auth/sso/redirect/gso?env=dev`;
             const gsoDevLinkHTML = `
                 <a href="${gsoDevSsoUrl}" class="dynamic-link flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
                     <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg bg-red-100 text-red-600">
@@ -127,10 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (signOutButton) {
         signOutButton.addEventListener('click', async () => {
-            // The URL of your deployed IT Helpdesk backend API
-            const API_BASE_URL = 'https://lgu-helpdesk-copy.onrender.com';
             try {
-                await fetch(`${API_BASE_URL}/api/auth/logout`, {
+                await fetch(`${AppConfig.API_BASE_URL}/api/auth/logout`, {
                     method: 'POST',
                     credentials: 'include',
                 });
