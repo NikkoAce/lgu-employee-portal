@@ -192,9 +192,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- REGISTRATION FORM LOGIC ---
     if (registerForm) {
+        // --- Consolidated Element References for Registration Form ---
         const emailInput = document.getElementById('register-email');
         const passwordInput = document.getElementById('register-password');
         const confirmPasswordInput = document.getElementById('register-confirm-password');
+        const employeeIdInput = document.getElementById('register-employeeId');
         const registerMessage = document.getElementById('register-message');
         const strengthMeter = document.getElementById('password-strength-meter');
         const strengthBars = document.querySelectorAll('.strength-bar');
@@ -247,39 +249,57 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
+        // --- Centralized Validation Functions ---
+        const validateEmail = (email) => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(String(email).toLowerCase());
+        // Updated password strength regex to match reset-password.js
+        const validatePasswordStrength = (password) => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(password);
+
+        // --- Centralized Error Handling ---
+        const setValidationError = (input, message) => {
+            if (registerMessage) {
+                registerMessage.textContent = message;
+                registerMessage.className = 'text-sm text-error';
+            }
+            if (input) input.classList.add('input-error');
+        };
+
+        const clearValidationError = (input) => {
+            if (input) input.classList.remove('input-error');
+        };
+        
+        // --- Centralized Error Clearing ---
+        const clearAllErrors = () => {
+            if (registerMessage) registerMessage.textContent = '';
+            clearValidationError(emailInput);
+            clearValidationError(passwordInput);
+            clearValidationError(confirmPasswordInput);
+        };
+
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             clearAllErrors(); // Clear previous errors on new submission
 
-            // --- NEW: Email Format Validation ---
+            // --- Email Format Validation ---
             if (!validateEmail(emailInput.value)) {
-                registerMessage.textContent = 'Please enter a valid email address.';
-                registerMessage.className = 'text-sm text-error';
-                emailInput.classList.add('input-error');
+                setValidationError(emailInput, 'Please enter a valid email address.');
                 return;
             }
 
-            // --- NEW: Password Strength Validation ---
+            // --- Password Strength Validation ---
             if (!validatePasswordStrength(passwordInput.value)) {
-                registerMessage.textContent = 'Password must be 8+ characters with uppercase, lowercase, and a number.';
-                registerMessage.className = 'text-sm text-error';
-                passwordInput.classList.add('input-error');
+                setValidationError(passwordInput, 'Password must be 8+ characters with uppercase, lowercase, and a number.');
                 return;
             }
 
             if (passwordInput.value !== confirmPasswordInput.value) {
-                registerMessage.textContent = 'Passwords do not match.';
-                registerMessage.className = 'text-sm text-error';
-                passwordInput.classList.add('input-error');
-                confirmPasswordInput.classList.add('input-error');
+                setValidationError(confirmPasswordInput, 'Passwords do not match.');
                 return;
             }
 
-            // --- NEW: Privacy Consent Validation ---
+            // --- Privacy Consent Validation ---
             const privacyConsentCheckbox = document.getElementById('privacy-consent');
             if (!privacyConsentCheckbox || !privacyConsentCheckbox.checked) {
-                registerMessage.textContent = 'You must agree to the privacy policy to continue.';
-                registerMessage.className = 'text-sm text-error';
+                setValidationError(null, 'You must agree to the privacy policy to continue.');
                 privacyConsentCheckbox.focus();
                 return;
             }
@@ -316,32 +336,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 resetButton(submitButton);
             }
         });
-    }
-
-    // --- NEW: REAL-TIME VALIDATION LOGIC ---
-    const setupRealtimeValidation = () => {
-        const emailInput = document.getElementById('register-email');
-        const passwordInput = document.getElementById('register-password');
-        const confirmPasswordInput = document.getElementById('register-confirm-password');
-        const employeeIdInput = document.getElementById('register-employeeId');
-        const registerMessage = document.getElementById('register-message');
-
-        // --- Centralized Validation Functions ---
-        const validateEmail = (email) => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(String(email).toLowerCase());
-        const validatePasswordStrength = (password) => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(password);
-
-        // --- Centralized Error Handling ---
-        const setValidationError = (input, message) => {
-            if (registerMessage) {
-                registerMessage.textContent = message;
-                registerMessage.className = 'text-sm text-error';
-            }
-            if (input) input.classList.add('input-error');
-        };
-
-        const clearValidationError = (input) => {
-            if (input) input.classList.remove('input-error');
-        };
 
         emailInput?.addEventListener('blur', () => {
             if (emailInput.value && !validateEmail(emailInput.value)) {
@@ -394,15 +388,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error checking employee ID:', error);
             }
         });
-
-        // --- Centralized Error Clearing ---
-        const clearAllErrors = () => {
-            if (registerMessage) registerMessage.textContent = '';
-            clearValidationError(emailInput);
-            clearValidationError(passwordInput);
-            clearValidationError(confirmPasswordInput);
-        };
-    };
+        
+        // --- Initialize dynamic parts of the registration form ---
+        populateOfficesDropdown();
 
     // --- INITIALIZE PASSWORD TOGGLES & DYNAMIC DATA ---
     // For Login Form
@@ -426,10 +414,5 @@ document.addEventListener('DOMContentLoaded', () => {
         'register-confirm-eye-icon',
         'register-confirm-eye-slash-icon'
     );
-
-    // If we are on the registration page, populate the offices dropdown
-    if (registerForm) {
-        populateOfficesDropdown();
-        setupRealtimeValidation(); // Activate real-time checks
     }
 });
