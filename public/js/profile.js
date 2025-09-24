@@ -1,14 +1,15 @@
 // This script manages the My Profile page.
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- CONFIGURATION ---
     // --- DOM ELEMENTS ---
     const profileForm = document.getElementById('profile-form');
     const nameInput = document.getElementById('profile-name');
     const emailInput = document.getElementById('profile-email');
     const officeContainer = document.getElementById('office-select-container');
-    const messageEl = document.getElementById('profile-message');
-    const saveButton = document.getElementById('save-profile-button');
+    const saveProfileButton = document.getElementById('save-profile-button');
+
+    const changePasswordForm = document.getElementById('change-password-form');
+    const savePasswordButton = document.getElementById('save-password-button');
 
     // --- SHARED HEADER/MENU LOGIC (similar to dashboard.js) ---
     const userMenuButton = document.getElementById('user-menu-button');
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const populateOfficeDropdown = async (currentUserOffice) => {
         try {
             // This logic is similar to the registration page.
-            const response = await fetch(`${AppConfig.API_BASE_URL}/api/users/offices`);
+            const response = await fetch(`${window.AppConfig.API_BASE_URL}/api/users/offices`);
             if (!response.ok) throw new Error('Failed to fetch offices');
             const offices = await response.json();
 
@@ -48,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const initializeProfilePage = async () => {
         try {
-            const response = await fetch(`${AppConfig.API_BASE_URL}/api/auth/me`, { credentials: 'include' });
+            const response = await fetch(`${window.AppConfig.API_BASE_URL}/api/auth/me`, { credentials: 'include' });
             if (!response.ok) {
                 window.location.href = 'index.html'; // Redirect if not authenticated
                 return;
@@ -72,21 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    profileForm.addEventListener('submit', async (e) => {
+    profileForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        saveButton.classList.add('btn-disabled');
-        saveButton.textContent = 'Saving...';
-        messageEl.textContent = '';
+        window.Utils.showButtonLoading(saveProfileButton);
 
-        const formData = new FormData(profileForm);
-        const updatedData = {
-            name: formData.get('name'),
-            email: formData.get('email'),
-            office: formData.get('office'),
-        };
+        const updatedData = { name: nameInput.value, email: emailInput.value, office: document.getElementById('profile-office')?.value };
 
         try {
-            const response = await fetch(`${AppConfig.API_BASE_URL}/api/users/me`, {
+            const response = await fetch(`${window.AppConfig.API_BASE_URL}/api/users/me`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -99,17 +93,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(result.message || 'Failed to update profile.');
             }
 
-            messageEl.className = 'text-green-600';
-            messageEl.textContent = 'Profile updated successfully!';
+            window.Utils.showModal('message-modal', 'Success', 'Profile updated successfully!', false, 2500);
             // Optionally, update the header with the new name
             userInfoDiv.querySelector('.font-semibold').textContent = result.name;
 
         } catch (error) {
-            messageEl.className = 'text-red-600';
-            messageEl.textContent = error.message;
+            window.Utils.showModal('message-modal', 'Update Failed', error.message, true);
         } finally {
-            saveButton.classList.remove('btn-disabled');
-            saveButton.textContent = 'Save Changes';
+            window.Utils.resetButton(saveProfileButton);
+        }
+    });
+
+    changePasswordForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        window.Utils.showButtonLoading(savePasswordButton);
+
+        const formData = new FormData(changePasswordForm);
+        const currentPassword = formData.get('currentPassword');
+        const newPassword = formData.get('newPassword');
+        const confirmNewPassword = formData.get('confirmNewPassword');
+
+        if (newPassword !== confirmNewPassword) {
+            window.Utils.showModal('message-modal', 'Validation Error', 'New passwords do not match.', true);
+            window.Utils.resetButton(savePasswordButton);
+            return;
+        }
+
+        try {
+            const response = await fetch(`${window.AppConfig.API_BASE_URL}/api/auth/change-password`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ currentPassword, newPassword }),
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.message || 'Failed to change password.');
+
+            window.Utils.showModal('message-modal', 'Success', 'Password changed successfully!', false, 2500);
+            changePasswordForm.reset();
+        } catch (error) {
+            window.Utils.showModal('message-modal', 'Update Failed', error.message, true);
+        } finally {
+            window.Utils.resetButton(savePasswordButton);
         }
     });
 
@@ -117,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     userMenuButton?.addEventListener('click', (e) => { e.stopPropagation(); userMenu.classList.toggle('hidden'); });
     window.addEventListener('click', () => userMenu?.classList.add('hidden'));
     signoutButton?.addEventListener('click', async () => {
-        await fetch(`${AppConfig.API_BASE_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
+        await fetch(`${window.AppConfig.API_BASE_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
         window.location.href = 'index.html';
     });
 

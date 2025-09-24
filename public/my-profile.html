@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile - LGU Portal</title>
     <link href="css/style.css" rel="stylesheet">
+    <script src="js/utils.js" defer></script>
     <script src="js/config.js" defer></script>
     <script src="js/profile.js" defer></script>
 </head>
@@ -12,7 +13,7 @@
 
     <!-- Header (Consistent with dashboard) -->
     <header class="bg-white shadow-md">
-        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center z-20 relative">
             <div class="flex items-center justify-center sm:justify-start space-x-3">
                 <img src="LGU-DAET LOGO.png" alt="LGU Logo" class="h-12 w-12 sm:h-16 sm:w-16 rounded-full">
                 <h1 class="text-xl sm:text-2xl font-bold text-gray-800">LGU Employee Portal</h1>
@@ -43,50 +44,78 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-2xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <div class="bg-white p-8 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold text-gray-800 border-b pb-4">My Profile</h2>
-            <p class="mt-1 text-sm text-gray-500">Update your personal information.</p>
-
-            <form id="profile-form" class="mt-6 space-y-6">
-                <!-- Full Name -->
-                <div>
-                    <label for="profile-name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                    <div class="mt-1">
-                        <input type="text" name="name" id="profile-name" required class="input input-bordered w-full">
-                    </div>
+    <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Profile Information Form -->
+            <div class="md:col-span-2">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Profile Information</h2>
+                    <form id="profile-form" class="space-y-4">
+                        <div>
+                            <label for="profile-name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" id="profile-name" name="name" required class="input input-bordered w-full mt-1">
+                        </div>
+                        <div>
+                            <label for="profile-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" id="profile-email" name="email" required class="input input-bordered w-full mt-1">
+                        </div>
+                        <div>
+                            <label for="profile-office" class="block text-sm font-medium text-gray-700">Office / Department</label>
+                            <div id="office-select-container" class="mt-1">
+                                <div class="skeleton h-12 w-full"></div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" id="save-profile-button" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
 
-                <!-- Email Address -->
-                <div>
-                    <label for="profile-email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                    <div class="mt-1">
-                        <input type="email" name="email" id="profile-email" required class="input input-bordered w-full">
-                    </div>
+            <!-- Change Password Form -->
+            <div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Change Password</h2>
+                    <form id="change-password-form" class="space-y-4">
+                        <div>
+                            <label for="current-password" class="block text-sm font-medium text-gray-700">Current Password</label>
+                            <input type="password" id="current-password" name="currentPassword" required class="input input-bordered w-full mt-1">
+                        </div>
+                        <div>
+                            <label for="new-password" class="block text-sm font-medium text-gray-700">New Password</label>
+                            <input type="password" id="new-password" name="newPassword" required class="input input-bordered w-full mt-1">
+                        </div>
+                        <div>
+                            <label for="confirm-new-password" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                            <input type="password" id="confirm-new-password" name="confirmNewPassword" required class="input input-bordered w-full mt-1">
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" id="save-password-button" class="btn btn-primary">Update Password</button>
+                        </div>
+                    </form>
                 </div>
-
-                <!-- Office -->
-                <div>
-                    <label for="profile-office" class="block text-sm font-medium text-gray-700">Office / Department</label>
-                    <div id="office-select-container" class="mt-1">
-                        <!-- Skeleton loader for office dropdown -->
-                        <div class="skeleton h-12 w-full"></div>
-                    </div>
-                </div>
-
-                <!-- Form Feedback -->
-                <p id="profile-message" class="text-sm h-5"></p>
-
-                <!-- Actions -->
-                <div class="flex justify-end space-x-3 pt-4">
-                    <a href="dashboard.html" class="btn btn-ghost">Cancel</a>
-                    <button type="submit" id="save-profile-button" class="btn btn-primary">
-                        Save Changes
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </main>
+
+    <!-- Generic Message Modal -->
+    <dialog id="message-modal" class="modal modal-animated">
+        <div class="modal-box max-w-sm">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <div class="text-center">
+                <div class="modal-icon-container mx-auto flex h-16 w-16 items-center justify-center rounded-full">
+                    <!-- Icon will be inserted here by JS -->
+                </div>
+            </div>
+            <h3 class="modal-title font-bold text-lg mt-3 text-center">Notification</h3>
+            <p class="modal-text py-4 text-sm text-center">Message goes here.</p>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
 
 </body>
 </html>
