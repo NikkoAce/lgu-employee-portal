@@ -196,6 +196,56 @@ document.addEventListener('DOMContentLoaded', () => {
         const passwordInput = document.getElementById('register-password');
         const confirmPasswordInput = document.getElementById('register-confirm-password');
         const registerMessage = document.getElementById('register-message');
+        const strengthMeter = document.getElementById('password-strength-meter');
+        const strengthBars = document.querySelectorAll('.strength-bar');
+        const strengthText = document.getElementById('password-strength-text');
+
+        // --- NEW: Password Strength Meter Logic ---
+        const updateStrengthMeter = (password) => {
+            if (!strengthMeter || !strengthBars.length || !strengthText) return;
+
+            if (!password) {
+                strengthMeter.classList.add('hidden');
+                return;
+            }
+            strengthMeter.classList.remove('hidden');
+
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
+            if (/\d/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++; // Special character
+
+            const strengthLevels = [
+                { text: 'Very Weak', color: 'bg-red-500' },
+                { text: 'Weak', color: 'bg-orange-500' },
+                { text: 'Medium', color: 'bg-yellow-500' },
+                { text: 'Strong', color: 'bg-green-500' },
+                { text: 'Very Strong', color: 'bg-green-600' }
+            ];
+
+            // Reset bars
+            strengthBars.forEach(bar => {
+                bar.className = 'strength-bar flex-1 h-full bg-gray-200 rounded-full';
+            });
+
+            if (score > 0) {
+                strengthText.textContent = strengthLevels[score - 1].text;
+                for (let i = 0; i < score; i++) {
+                    strengthBars[i].classList.remove('bg-gray-200');
+                    strengthBars[i].classList.add(strengthLevels[score - 1].color);
+                }
+            } else {
+                strengthText.textContent = '';
+            }
+        };
+
+        if (passwordInput) {
+            passwordInput.addEventListener('input', () => {
+                updateStrengthMeter(passwordInput.value);
+            });
+        }
+
 
         // --- NEW: Validation Helper Functions ---
         const validateEmail = (email) => {
@@ -206,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const validatePasswordStrength = (password) => {
             // Requires 8+ chars, 1 uppercase, 1 lowercase, 1 number
-            const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+            const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
             return re.test(password);
         };
 
@@ -217,11 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (confirmPasswordInput) confirmPasswordInput.classList.remove('input-error');
         };
         
-        // Clear errors when user starts typing in any of the validated fields
-        if (emailInput) emailInput.addEventListener('input', clearAllErrors);
-        if (passwordInput) passwordInput.addEventListener('input', clearAllErrors);
-        if (confirmPasswordInput) confirmPasswordInput.addEventListener('input', clearAllErrors);
-
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             clearAllErrors(); // Clear previous errors on new submission
@@ -293,6 +338,80 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- NEW: REAL-TIME VALIDATION LOGIC ---
+    const setupRealtimeValidation = () => {
+        const emailInput = document.getElementById('register-email');
+        const passwordInput = document.getElementById('register-password');
+        const confirmPasswordInput = document.getElementById('register-confirm-password');
+        const employeeIdInput = document.getElementById('register-employeeId');
+        const registerMessage = document.getElementById('register-message');
+
+        const validateEmail = (email) => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(String(email).toLowerCase());
+        const validatePasswordStrength = (password) => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(password);
+
+        const setValidationError = (input, message) => {
+            if (registerMessage) {
+                registerMessage.textContent = message;
+                registerMessage.className = 'text-sm text-error';
+            }
+            if (input) input.classList.add('input-error');
+        };
+
+        const clearValidationError = (input) => {
+            if (registerMessage) registerMessage.textContent = '';
+            if (input) input.classList.remove('input-error');
+        };
+
+        emailInput?.addEventListener('blur', () => {
+            if (emailInput.value && !validateEmail(emailInput.value)) {
+                setValidationError(emailInput, 'Please enter a valid email address.');
+            } else {
+                clearValidationError(emailInput);
+            }
+        });
+
+        confirmPasswordInput?.addEventListener('input', () => {
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                setValidationError(confirmPasswordInput, 'Passwords do not match.');
+            } else {
+                clearValidationError(confirmPasswordInput);
+            }
+        });
+
+        employeeIdInput?.addEventListener('blur', async () => {
+            const employeeId = employeeIdInput.value;
+            const statusContainer = document.getElementById('employee-id-status');
+            if (!employeeId || !statusContainer) {
+                if (statusContainer) statusContainer.innerHTML = '';
+                return;
+            }
+
+            // Show a spinner while checking
+            statusContainer.innerHTML = '<span class="loading loading-spinner loading-xs"></span>';
+
+            try {
+                // This assumes a new backend endpoint exists to check for ID availability.
+                // Example: GET /api/auth/check-employee-id/12345
+                const response = await fetch(`${AppConfig.API_BASE_URL}/api/auth/check-employee-id/${employeeId}`);
+                const data = await response.json();
+
+                if (response.ok && data.isAvailable) {
+                    // ID is available
+                    statusContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+                    clearValidationError(employeeIdInput);
+                } else {
+                    // ID is taken or an error occurred
+                    statusContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-error" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
+                    setValidationError(employeeIdInput, data.message || 'Employee ID is already in use.');
+                }
+            } catch (error) {
+                // Network error or other issue
+                statusContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>';
+                console.error('Error checking employee ID:', error);
+            }
+        });
+    };
+
     // --- INITIALIZE PASSWORD TOGGLES & DYNAMIC DATA ---
     // For Login Form
     setupPasswordToggle(
@@ -319,5 +438,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // If we are on the registration page, populate the offices dropdown
     if (registerForm) {
         populateOfficesDropdown();
+        setupRealtimeValidation(); // Activate real-time checks
     }
 });

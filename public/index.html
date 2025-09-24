@@ -76,7 +76,10 @@
                                 <path d="M5.5 6a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-1Z" />
                             </svg>
                         </span>
-                        <input id="register-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full text-sm pl-10">
+                        <input id="register-employeeId" name="employeeId" type="text" placeholder="Employee ID" required class="input input-bordered w-full text-sm pl-10 pr-10">
+                        <span id="employee-id-status" class="absolute inset-y-0 right-0 flex items-center pr-3">
+                            <!-- Status icon will be inserted here by JS -->
+                        </span>
                     </div>
                     <div class="relative w-full">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -119,6 +122,16 @@
                                 <path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zM14.95 14.95a10.05 10.05 0 01-1.473 1.473l-1.473-1.473A8.014 8.014 0 0110 13c-2.977 0-5.571-1.44-7.247-3.75a10.05 10.05 0 011.473-1.473l-1.473-1.473z" clip-rule="evenodd" />
                             </svg>
                         </button>
+                    </div>
+                    <!-- Password Strength Meter -->
+                    <div id="password-strength-meter" class="w-full h-4 space-y-1 hidden">
+                        <div class="flex items-center space-x-1 h-1">
+                            <div class="strength-bar flex-1 h-full bg-gray-200 rounded-full"></div>
+                            <div class="strength-bar flex-1 h-full bg-gray-200 rounded-full"></div>
+                            <div class="strength-bar flex-1 h-full bg-gray-200 rounded-full"></div>
+                            <div class="strength-bar flex-1 h-full bg-gray-200 rounded-full"></div>
+                        </div>
+                        <p id="password-strength-text" class="text-xs text-left text-gray-500"></p>
                     </div>
                     <div class="relative w-full">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3">

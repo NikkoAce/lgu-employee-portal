@@ -66,7 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Show success message in the modal
-            showModal('Request Sent', data.message, false, 3000); // Auto-closes after 3 seconds
+            const successMessage = `${data.message} If you don't see the email, please check your spam folder.`;
+            showModal('Request Sent', successMessage, false, 4000); // Auto-closes after 4 seconds
             form.reset();
 
         } catch (error) {

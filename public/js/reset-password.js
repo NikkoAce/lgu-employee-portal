@@ -107,7 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
             form.style.display = 'none';
             loginLinkContainer.classList.remove('hidden');
         } catch (error) {
-            showModal('Error', error.message, true);
+            let errorMessage = error.message;
+            // Provide a more user-friendly message for token-related errors.
+            if (error.message && error.message.toLowerCase().includes('token')) {
+                errorMessage = 'This password reset link is invalid or has expired. Please request a new one.';
+            }
+            showModal('Error', errorMessage, true);
             submitButton.disabled = false;
             submitButton.innerHTML = 'Reset Password';
         }
