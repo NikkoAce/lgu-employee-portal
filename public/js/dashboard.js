@@ -38,15 +38,16 @@ async function initializeDashboard() {
         
         if (appsContainer) {
             // --- Link existing applications ---
+            const helpdeskSsoUrl = `${AppConfig.API_BASE_URL}/api/auth/sso/redirect/helpdesk`;
             const existingApps = [
-                { id: 'it-helpdesk-link', url: AppConfig.IT_HELPDESK_URL },
+                { id: 'it-helpdesk-link', url: helpdeskSsoUrl },
                 { id: 'building-permit-link', url: AppConfig.BUILDING_PERMIT_URL },
                 { id: 'informal-settler-link', url: AppConfig.INFORMAL_SETTLER_URL }
             ];
             existingApps.forEach(app => {
                 const linkElement = document.getElementById(app.id);
                 if (linkElement && app.url) {
-                    linkElement.href = app.url; // No token attached
+                    linkElement.href = app.url;
                 }
             });
             
