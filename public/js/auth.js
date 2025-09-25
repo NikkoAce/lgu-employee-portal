@@ -54,6 +54,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- NEW: Handle Redirect Status Messages from Google Sign-In ---
+    // This checks for query parameters on page load to inform the user.
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    const error = urlParams.get('error');
+
+    if (status === 'pending') {
+        showErrorModal('Thank you for signing up! Your account is now awaiting approval from an administrator. You will receive an email once your account is active.', 'Account Pending Approval');
+    } else if (status === 'rejected') {
+        showErrorModal('Your account registration was not approved. Please contact the ICTO department for more information.', 'Account Rejected');
+    } else if (error === 'google-auth-failed') {
+        showErrorModal('Authentication with Google failed. Please try again or use a different login method.', 'Google Sign-In Failed');
+    }
+
+
     // --- PANEL TOGGLING LOGIC ---
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
