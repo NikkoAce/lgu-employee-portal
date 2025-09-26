@@ -65,6 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(data.message || 'An unknown error occurred.');
             }
 
+            // Handle the rate limit response specifically
+            if (response.status === 429) {
+                throw new Error(data.message || 'Too many requests. Please try again later.');
+            }
+
             // Show success message in the modal
             const successMessage = `${data.message} If you don't see the email, please check your spam folder.`;
             showModal('Request Sent', successMessage, false, 4000); // Auto-closes after 4 seconds
