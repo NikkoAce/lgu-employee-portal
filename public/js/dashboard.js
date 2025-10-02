@@ -52,14 +52,14 @@ async function initializeDashboard() {
             });
             
             // Clear any dynamically added links before re-adding them to prevent duplicates on bfcache restore.
-            const dynamicLinks = appsContainer.querySelectorAll('.dynamic-link');
+            const dynamicLinks = appsContainer.querySelectorAll('.gso-system-link');
             dynamicLinks.forEach(link => link.remove());
 
             // --- GSO System Link (Production) ---
             // NEW: Point to the backend SSO redirect endpoint instead of the GSO app directly.
             const gsoProdSsoUrl = `${AppConfig.API_BASE_URL}/api/auth/sso/redirect/gso?env=prod`;
             const gsoLinkHTML = `
-                <a href="${gsoProdSsoUrl}" class="dynamic-link flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+                <a href="${gsoProdSsoUrl}" class="gso-system-link flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
                     <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg bg-purple-100 text-purple-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
@@ -77,7 +77,7 @@ async function initializeDashboard() {
             // NEW: Point to the backend SSO redirect endpoint instead of the GSO app directly.
             const gsoDevSsoUrl = `${AppConfig.API_BASE_URL}/api/auth/sso/redirect/gso?env=dev`;
             const gsoDevLinkHTML = `
-                <a href="${gsoDevSsoUrl}" class="dynamic-link flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+                <a href="${gsoDevSsoUrl}" class="gso-system-link flex items-start space-x-4 rounded-lg bg-white p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
                     <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-lg bg-red-100 text-red-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
